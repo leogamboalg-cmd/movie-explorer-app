@@ -18,11 +18,14 @@ app.get("/", (req, res) => {
   res.send("Movie API backend is running");
 });
 
-app.post("/addToFavorites",(req,res) => {
-	  console.log(req.body);
-  	res.json({ message: "Login received" });
+app.post("/addToFavorites", (req, res) => {
+  console.log(req.body);
+  res.json({ message: "Login received" });
 });
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
+const testRoutes = require("./routes/testRoutes");
+app.use("/api/test", testRoutes);
