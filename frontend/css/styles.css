@@ -1,0 +1,123 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Inter, system-ui, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #1f1b2e 0%, #0b0b0f 70%);
+    color: #ffffff;
+}
+
+/* ---------- PAGE LAYOUT ---------- */
+.page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding-top: 110px;
+    /* pull content slightly higher */
+}
+
+/* ---------- LOGIN BOX ---------- */
+.login-box {
+    width: 100%;
+    max-width: 520px;
+    /* BIGGER */
+    text-align: center;
+    padding: 60px 50px;
+    /* BIGGER */
+}
+
+/* ---------- BRAND ---------- */
+.brand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.7rem;
+    /* BIGGER */
+    font-weight: 700;
+    margin-bottom: 50px;
+}
+
+.brand span {
+    color: #fbbf24;
+}
+
+/* ---------- TITLE ---------- */
+h1 {
+    font-size: 2.9rem;
+    /* BIGGER */
+    margin-bottom: 44px;
+}
+
+/* ---------- FORM ---------- */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    /* MORE SPACING */
+}
+
+.field {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 14px;
+    padding: 20px 22px;
+    /* BIGGER INPUTS */
+}
+
+.field .icon {
+    margin-right: 14px;
+    font-size: 1.1rem;
+    opacity: 0.7;
+}
+
+.field input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-size: 1.05rem;
+    /* BIGGER TEXT */
+}
+
+.field input::placeholder {
+    color: #b5b5b5;
+}
+
+/* ---------- BUTTON ---------- */
+button {
+    margin-top: 18px;
+    padding: 20px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #111;
+    font-size: 1.15rem;
+    /* BIGGER */
+    font-weight: 600;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.95;
+}
+
+/* ---------- SIGN UP ---------- */
+.signup {
+    margin-top: 34px;
+    font-size: 1rem;
+    /* BIGGER */
+    color: #cfcfcf;
+}
+
+.signup a {
+    color: #fbbf24;
+    text-decoration: none;
+    font-weight: 600;
+}

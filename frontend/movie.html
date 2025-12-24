@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>MovieApp | Movie</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Reuse your existing theme -->
+    <link rel="stylesheet" href="css/home.css" />
+    <style>
+        /* Page-specific styles only (keeps your theme consistent) */
+
+        .movie-shell {
+            padding: 30px 40px 50px;
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 40px;
+        }
+
+        .movie-card {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 18px;
+            padding: 26px;
+        }
+
+        .movie-top {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 26px;
+            align-items: start;
+        }
+
+        .poster {
+            width: 100%;
+            height: 380px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.45);
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .poster::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0));
+            pointer-events: none;
+        }
+
+        .title-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 10px 14px;
+            margin-bottom: 10px;
+        }
+
+        .movie-title {
+            font-size: 2.4rem;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .movie-sub {
+            opacity: 0.75;
+            font-size: 1rem;
+        }
+
+        .meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 14px 0 18px;
+        }
+
+        .pill {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 999px;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .ratings {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin: 18px 0 22px;
+        }
+
+        .rating-box {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 14px 14px;
+            text-align: left;
+        }
+
+        .rating-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-bottom: 6px;
+        }
+
+        .rating-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .rating-value .gold {
+            color: #fbbf24;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 6px;
+        }
+
+        .btn-primary {
+            padding: 14px 18px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #111;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-ghost {
+            padding: 14px 18px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+            margin: 22px 0;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .plot {
+            opacity: 0.8;
+            line-height: 1.7;
+        }
+
+        .details-grid {
+            margin-top: 14px;
+            display: grid;
+            grid-template-columns: 160px 1fr;
+            gap: 10px 18px;
+            opacity: 0.9;
+        }
+
+        .k {
+            opacity: 0.7;
+        }
+
+        .v {
+            opacity: 0.95;
+        }
+
+        .cast-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .chip {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 999px;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Right panel: keep space for friends / activity */
+        .side-panel {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 18px;
+            padding: 22px;
+            height: fit-content;
+        }
+
+        .side-title {
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .side-hint {
+            opacity: 0.65;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+
+        .side-block {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            height: 44px;
+            margin-bottom: 12px;
+        }
+
+        /* Responsive */
+        @media (max-width: 980px) {
+            .movie-shell {
+                grid-template-columns: 1fr;
+            }
+
+            .movie-top {
+                grid-template-columns: 1fr;
+            }
+
+            .poster {
+                height: 420px;
+                max-width: 420px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR (same structure as your home) -->
+    <header class="navbar">
+        <div class="nav-left">
+            🎬 <span>MovieApp</span>
+        </div>
+
+        <div class="nav-right">
+            <span class="welcome">Welcome, John!</span>
+            <button class="nav-btn star">⭐ Favorites</button>
+            <button class="icon-btn">☰</button>
+        </div>
+    </header>
+
+    <!-- SEARCH BAR -->
+    <div class="search-bar">
+        <input type="text" placeholder="Search for a movie..." />
+        <button>Search</button>
+    </div>
+
+    <!-- MOVIE DETAILS -->
+    <main class="movie-shell">
+
+        <!-- LEFT: Movie details -->
+        <section class="movie-card">
+
+            <div class="movie-top">
+
+                <!-- Poster placeholder -->
+                <div class="poster">
+                    POSTER IMAGE
+                </div>
+
+                <!-- Details -->
+                <div>
+                    <div class="title-row">
+                        <div class="movie-title">Movie Title Placeholder</div>
+                        <div class="movie-sub">(2025)</div>
+                    </div>
+
+                    <div class="movie-sub">Tagline / short descriptor placeholder</div>
+
+                    <div class="meta-row">
+                        <span class="pill">PG-13</span>
+                        <span class="pill">2h 14m</span>
+                        <span class="pill">Action • Sci-Fi</span>
+                        <span class="pill">USA</span>
+                    </div>
+
+                    <div class="ratings">
+                        <div class="rating-box">
+                            <div class="rating-label">IMDb</div>
+                            <div class="rating-value"><span class="gold">8.1</span>/10</div>
+                        </div>
+                        <div class="rating-box">
+                            <div class="rating-label">Metascore</div>
+                            <div class="rating-value">74/100</div>
+                        </div>
+                        <div class="rating-box">
+                            <div class="rating-label">User Rating</div>
+                            <div class="rating-value"><span class="gold">—</span></div>
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button class="btn-primary">+ Add to Favorites</button>
+                        <button class="btn-ghost">★ Rate</button>
+                        <button class="btn-ghost">Write Review</button>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="section-title">Overview</div>
+                    <p class="plot">
+                        Plot placeholder: This is where the movie plot will go. Keep it a few sentences long
+                        so it looks like IMDb — enough detail, but not overwhelming. Later you’ll swap this
+                        with the real plot from the API.
+                    </p>
+
+                    <div class="divider"></div>
+
+                    <div class="section-title">Details</div>
+                    <div class="details-grid">
+                        <div class="k">Director</div>
+                        <div class="v">Director Name Placeholder</div>
+
+                        <div class="k">Writers</div>
+                        <div class="v">Writer One, Writer Two</div>
+
+                        <div class="k">Stars</div>
+                        <div class="v">Actor One, Actor Two, Actor Three</div>
+
+                        <div class="k">Release</div>
+                        <div class="v">Jan 1, 2025</div>
+
+                        <div class="k">Box Office</div>
+                        <div class="v">$123,456,789</div>
+
+                        <div class="k">Awards</div>
+                        <div class="v">Awards placeholder text</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="section-title">Cast</div>
+                    <div class="cast-row">
+                        <span class="chip">Actor One</span>
+                        <span class="chip">Actor Two</span>
+                        <span class="chip">Actor Three</span>
+                        <span class="chip">Actor Four</span>
+                        <span class="chip">Actor Five</span>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+        <!-- RIGHT: Friends/Activity placeholder -->
+        <aside class="side-panel">
+            <div class="side-title">Friends</div>
+            <div class="side-hint">Friend activity will appear here later.</div>
+
+            <div class="side-block"></div>
+            <div class="side-block"></div>
+            <div class="side-block"></div>
+
+            <div class="divider"></div>
+
+            <div class="side-title">What friends said</div>
+            <div class="side-hint">Reviews/ratings placeholder space.</div>
+
+            <div class="side-block"></div>
+            <div class="side-block"></div>
+        </aside>
+
+    </main>
+
+</body>
+
+</html>
