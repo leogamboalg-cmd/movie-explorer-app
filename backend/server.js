@@ -1,31 +1,30 @@
 const express = require("express");
-const mongoose = require("mongoose");
 require("dotenv").config();
+
+// connect to database
+require("./config/db");
+
+const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const cors = require("cors");
+// middleware
 app.use(cors());
-
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.error("MongoDB connection error:", err));
+// routes
+app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/friends", require("./routes/friendRoutes"));
+app.use("/api/test", require("./routes/testRoutes"));
 
+// health check
 app.get("/", (req, res) => {
   res.send("Movie API backend is running");
 });
 
-app.post("/addToFavorites", (req, res) => {
-  console.log(req.body);
-  res.json({ message: "Login received" });
-});
-
+// start server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
-
-const testRoutes = require("./routes/testRoutes");
-app.use("/api/test", testRoutes);
