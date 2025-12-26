@@ -5,12 +5,19 @@ require("dotenv").config();
 require("./config/db");
 
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// middleware
-app.use(cors());
+// 🔐 middleware
+app.use(cookieParser());
+
+app.use(cors({
+  origin: "http://127.0.0.1:5500", // your frontend URL
+  credentials: true               // REQUIRED for cookies
+}));
+
 app.use(express.json());
 
 // routes
