@@ -17,20 +17,12 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: (origin, callback) => {
-    // allow non-browser requests (Postman, curl)
     if (!origin) return callback(null, true);
-
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, origin); // IMPORTANT
-    }
-
-    return callback(new Error(`CORS blocked: ${origin}`));
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error("CORS blocked"));
   },
   credentials: true
 }));
-
-// REQUIRED for preflight
-app.options("*", cors());
 
 app.use(express.json());
 
