@@ -23,12 +23,12 @@
             <form class="login-form">
                 <div class="field">
                     <span class="icon">👤</span>
-                    <input type="text" placeholder="Choose a username">
+                    <input id="username" type="text" placeholder="Choose a username">
                 </div>
 
                 <div class="field">
                     <span class="icon">📧</span>
-                    <input type="email" placeholder="Enter your email">
+                    <input id="email" type="email" placeholder="Enter your email">
                 </div>
 
                 <div class="field">
@@ -38,7 +38,7 @@
 
                 <div class="field">
                     <span class="icon">🔒</span>
-                    <input type="password" placeholder="Confirm password">
+                    <input id="password" type="password" placeholder="Confirm password">
                 </div>
 
                 <button type="submit">Sign Up</button>
@@ -48,9 +48,10 @@
                 Already have an account?
                 <a href="login.html">Log in</a>
             </p>
-
+            <div id="toast"></div>
         </div>
-
+        <script src="js/toast.js"></script>
+        <script src="js/authSignup.js"></script>
     </main>
 
 </body>

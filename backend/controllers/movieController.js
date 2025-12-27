@@ -1,5 +1,5 @@
 
-export async function searchMovie(req, res) {
+const searchMovie = async function searchMovie(req, res) {
     try {
         const { title } = req.query;
         if (!title) {
@@ -19,3 +19,4 @@ export async function searchMovie(req, res) {
         res.status(500).json({ message: "OMDb fetch failed" });
     }
 }
+module.exports = { searchMovie };

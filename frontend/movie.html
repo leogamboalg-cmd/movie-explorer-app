@@ -240,9 +240,11 @@
 
     <!-- NAVBAR (same structure as your home) -->
     <header class="navbar">
-        <div class="nav-left">
-            🎬 <span>MovieApp</span>
-        </div>
+        <a href="index.html">
+            <div class="nav-left">
+                🎬 <span>MovieApp</span>
+            </div>
+        </a>
 
         <div class="nav-right">
             <span class="welcome">Welcome, John!</span>
@@ -252,10 +254,12 @@
     </header>
 
     <!-- SEARCH BAR -->
-    <div class="search-bar">
-        <input type="text" placeholder="Search for a movie..." />
-        <button>Search</button>
-    </div>
+    <form action="" id="searchForm">
+        <div class="search-bar">
+            <input id="searchBar" type="text" placeholder="Search for a movie..." />
+            <button>Search</button>
+        </div>
+    </form>
 
     <!-- MOVIE DETAILS -->
     <main class="movie-shell">
@@ -265,19 +269,19 @@
 
             <div class="movie-top">
 
-                <!-- Poster placeholder -->
-                <div class="poster">
+                <!-- Poster -->
+                <div id="posterImg" class="poster">
                     POSTER IMAGE
                 </div>
 
                 <!-- Details -->
                 <div>
                     <div class="title-row">
-                        <div class="movie-title">Movie Title Placeholder</div>
-                        <div class="movie-sub">(2025)</div>
+                        <div id="movieTitle" class="movie-title">Movie Title Placeholder</div>
+                        <div id="movieYear" class="movie-sub">(2025)</div>
                     </div>
 
-                    <div class="movie-sub">Tagline / short descriptor placeholder</div>
+                    <div id="movieTagline" class="movie-sub">Tagline / short descriptor placeholder</div>
 
                     <div class="meta-row">
                         <span class="pill">PG-13</span>
@@ -289,28 +293,28 @@
                     <div class="ratings">
                         <div class="rating-box">
                             <div class="rating-label">IMDb</div>
-                            <div class="rating-value"><span class="gold">8.1</span>/10</div>
+                            <div id="imdbRating" class="rating-value"><span class="gold">8.1</span>/10</div>
                         </div>
                         <div class="rating-box">
                             <div class="rating-label">Metascore</div>
-                            <div class="rating-value">74/100</div>
+                            <div id="metaScore" class="rating-value">74/100</div>
                         </div>
                         <div class="rating-box">
                             <div class="rating-label">User Rating</div>
-                            <div class="rating-value"><span class="gold">—</span></div>
+                            <div id="userRating" class="rating-value"><span class="gold">—</span></div>
                         </div>
                     </div>
 
                     <div class="actions">
-                        <button class="btn-primary">+ Add to Favorites</button>
-                        <button class="btn-ghost">★ Rate</button>
-                        <button class="btn-ghost">Write Review</button>
+                        <button id="addToFavoritesBtn" class="btn-primary" type="button">+ Add to Favorites</button>
+                        <button class="btn-ghost" type="button">★ Rate</button>
+                        <button class="btn-ghost" type="button">Write Review</button>
                     </div>
 
                     <div class="divider"></div>
 
                     <div class="section-title">Overview</div>
-                    <p class="plot">
+                    <p id="moviePlot" class="plot">
                         Plot placeholder: This is where the movie plot will go. Keep it a few sentences long
                         so it looks like IMDb — enough detail, but not overwhelming. Later you’ll swap this
                         with the real plot from the API.
@@ -321,28 +325,28 @@
                     <div class="section-title">Details</div>
                     <div class="details-grid">
                         <div class="k">Director</div>
-                        <div class="v">Director Name Placeholder</div>
+                        <div id="director" class="v">Director Name Placeholder</div>
 
                         <div class="k">Writers</div>
-                        <div class="v">Writer One, Writer Two</div>
+                        <div id="writers" class="v">Writer One, Writer Two</div>
 
                         <div class="k">Stars</div>
-                        <div class="v">Actor One, Actor Two, Actor Three</div>
+                        <div id="stars" class="v">Actor One, Actor Two, Actor Three</div>
 
                         <div class="k">Release</div>
-                        <div class="v">Jan 1, 2025</div>
+                        <div id="release" class="v">Jan 1, 2025</div>
 
                         <div class="k">Box Office</div>
-                        <div class="v">$123,456,789</div>
+                        <div id="boxOffice" class="v">$123,456,789</div>
 
                         <div class="k">Awards</div>
-                        <div class="v">Awards placeholder text</div>
+                        <div id="awards" class="v">Awards placeholder text</div>
                     </div>
 
                     <div class="divider"></div>
 
                     <div class="section-title">Cast</div>
-                    <div class="cast-row">
+                    <div id="castRow" class="cast-row">
                         <span class="chip">Actor One</span>
                         <span class="chip">Actor Two</span>
                         <span class="chip">Actor Three</span>
@@ -374,6 +378,11 @@
         </aside>
 
     </main>
+
+    <!-- Scripts (order matters) -->
+    <script src="js/toast.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/movie.js"></script>
 
 </body>
 

@@ -24,11 +24,12 @@
     </header>
 
     <!-- SEARCH BAR -->
-    <div class="search-bar">
-        <input type="text" placeholder="Search for a movie...">
-        <button>Search</button>
-    </div>
-
+    <form id="searchForm">
+        <div class="search-bar">
+            <input id="searchBar" type="text" placeholder="Search for a movie...">
+            <button>Search</button>
+        </div>
+    </form>
     <!-- MAIN LAYOUT -->
     <main class="layout">
 
@@ -51,7 +52,8 @@
             <div class="friend-placeholder"></div>
             <div class="friend-placeholder"></div>
         </aside>
-
+        <script src="js/toast.js"></script>
+        <script src="js/search.js"></script>
     </main>
 
 </body>
