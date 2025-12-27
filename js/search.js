@@ -1,9 +1,9 @@
 // search.js
 
-const API_BASE =
-    window.location.hostname === "localhost"
-        ? "http://localhost:3000/api"
-        : "https://movie-explorer-app-yw9h.onrender.com/api";
+// const API_BASE =
+//     window.location.hostname === "localhost"
+//         ? "http://localhost:3000/api"
+//         : "https://movie-explorer-app-yw9h.onrender.com/api";
 
 document.getElementById("searchForm").addEventListener("submit", searchForMovie);
 
