@@ -1,4 +1,8 @@
 //authLogin.js
+const API_BASE =
+	window.location.hostname === "localhost"
+		? "http://localhost:3000/api"
+		: "https://movie-explorer-app.onrender.com/api";
 
 document.querySelector("form").addEventListener("submit", handleLogin);
 const passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).+$/;
@@ -20,7 +24,7 @@ async function handleLogin(e) {
 
 	try {
 
-		const res = await fetch("http://localhost:3000/api/auth/login", {
+		const res = await fetch(`${API_BASE}/auth/login`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"

@@ -1,3 +1,8 @@
+const API_BASE =
+    window.location.hostname === "localhost"
+        ? "http://localhost:3000/api"
+        : "https://movie-explorer-app.onrender.com/api";
+
 //authSignup.js
 document.querySelector("form").addEventListener("submit", handleSignup);
 // document.querySelector("")
@@ -26,7 +31,7 @@ async function handleSignup(e) {
 
     try {
 
-        const res = await fetch("http://localhost:3000/api/auth/register", {
+        const res = await fetch(`${API_BASE}/auth/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

@@ -1,11 +1,11 @@
-//authController.js
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const isProduction = process.env.NODE_ENV === "production";
+
 /**
  * REGISTER
- * POST /api/auth/register
  */
 exports.register = async (req, res) => {
     try {
@@ -31,7 +31,7 @@ exports.register = async (req, res) => {
             email,
             passwordHash,
             favoriteMovies: [],
-            friendsList: [],
+            friendsList: []
         });
 
         res.status(201).json({
@@ -46,7 +46,6 @@ exports.register = async (req, res) => {
 
 /**
  * LOGIN
- * POST /api/auth/login
  */
 exports.login = async (req, res) => {
     try {
@@ -76,15 +75,12 @@ exports.login = async (req, res) => {
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: false,        // true in production
-            sameSite: "lax",
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
-        // token REMOVED from response
-        return res.status(200).json({
-            message: "Login successful"
-        });
+        return res.status(200).json({ message: "Login successful" });
 
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -93,13 +89,12 @@ exports.login = async (req, res) => {
 
 /**
  * LOGOUT
- * POST /api/auth/logout
  */
 exports.logout = (req, res) => {
     res.clearCookie("token", {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false // true in production (https)
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax"
     });
 
     return res.status(200).json({ message: "Logged out successfully" });

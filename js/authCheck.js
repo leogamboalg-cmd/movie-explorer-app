@@ -1,6 +1,11 @@
+const API_BASE =
+    window.location.hostname === "localhost"
+        ? "http://localhost:3000/api"
+        : "https://movie-explorer-app.onrender.com/api";
+
 async function requireAuth() {
     try {
-        const res = await fetch("http://localhost:3000/api/users/me", {
+        const res = await fetch(`${API_BASE}/users/me`, {
             credentials: "include"
         });
 

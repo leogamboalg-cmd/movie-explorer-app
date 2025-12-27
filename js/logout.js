@@ -1,11 +1,15 @@
+const API_BASE =
+    window.location.hostname === "localhost"
+        ? "http://localhost:3000/api"
+        : "https://movie-explorer-app.onrender.com/api";
+
 document.getElementById("logoutBtn")?.addEventListener("click", async () => {
     try {
-        await fetch("http://localhost:3000/api/auth/logout", {
+        await fetch(`${API_BASE}/auth/logout`, {
             method: "POST",
             credentials: "include"
         });
 
-        // Redirect to login
         window.location.href = "login.html";
     } catch (err) {
         console.error("Logout failed", err);
