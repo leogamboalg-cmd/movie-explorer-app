@@ -1,3 +1,4 @@
+// movie.js
 function loadMoviePage() {
     const movieData = sessionStorage.getItem("movieData");
 
@@ -56,3 +57,27 @@ function loadMoviePage() {
 }
 
 loadMoviePage();
+// ADD TO FAVORITES BUTTON
+const addToFavoritesBtn = document.getElementById("addToFavoritesBtn");
+
+if (addToFavoritesBtn) {
+    addToFavoritesBtn.addEventListener("click", async () => {
+        try {
+            const movieData = sessionStorage.getItem("movieData");
+
+            if (!movieData) {
+                showToast("No movie selected", 2000);
+                return;
+            }
+
+            const movie = JSON.parse(movieData);
+
+            await addFavorite(movie.Title);
+
+            showToast("Added to favorites ⭐", 2000);
+        } catch (err) {
+            console.error(err);
+            showToast("Failed to add favorite", 2000);
+        }
+    });
+}

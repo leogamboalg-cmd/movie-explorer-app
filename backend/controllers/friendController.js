@@ -1,3 +1,4 @@
+//friendController.js
 const User = require("../models/User");
 
 /**

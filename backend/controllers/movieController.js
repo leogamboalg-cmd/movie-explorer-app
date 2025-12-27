@@ -1,4 +1,4 @@
-
+//movieController.js
 const searchMovie = async function searchMovie(req, res) {
     try {
         const { title } = req.query;

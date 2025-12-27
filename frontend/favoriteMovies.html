@@ -1,61 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>MovieApp | Favorites</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Base theme -->
-    <link rel="stylesheet" href="css/home.css" />
+<head>
+  <meta charset="UTF-8" />
+  <title>MovieApp | Favorites</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Favorites page styles -->
-    <link rel="stylesheet" href="css/favorites.css" />
-  </head>
+  <!-- Base theme -->
+  <link rel="stylesheet" href="css/home.css" />
 
-  <body>
-    <!-- NAVBAR -->
-    <header class="navbar">
-      <a href="index.html">
-        <div class="nav-left">🎬 <span>MovieApp</span></div>
-      </a>
+  <!-- Favorites page styles -->
+  <link rel="stylesheet" href="css/favorites.css" />
+</head>
 
-      <div class="nav-right">
-        <span class="welcome">Welcome, John!</span>
-        <button class="nav-btn star">⭐ Favorites</button>
-        <button class="icon-btn">☰</button>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <a href="index.html">
+      <div class="nav-left">🎬 <span>MovieApp</span></div>
+    </a>
+
+    <div class="nav-right">
+      <span class="welcome">Welcome, John!</span>
+      <button class="nav-btn star">⭐ Favorites</button>
+      <button id="logoutBtn" class="nav-btn">Logout</button>
+
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="favoritesPage">
+    <div class="favoritesTitle">Your Favorite Movies</div>
+    <div class="favoritesSubtitle">
+      Movies you’ve saved to watch again or recommend to friends.
+    </div>
+
+    <!-- FAVORITES GRID -->
+    <section id="favoritesGrid" class="favoritesGrid">
+      <!-- Placeholder cards -->
+      <div class="movieCard">
+        <div class="moviePoster">POSTER</div>
+        <div class="movieTitle">Movie Title Placeholder</div>
+        <div class="movieYear">(2025)</div>
       </div>
-    </header>
 
-    <!-- MAIN -->
-    <main class="favoritesPage">
-      <div class="favoritesTitle">Your Favorite Movies</div>
-      <div class="favoritesSubtitle">
-        Movies you’ve saved to watch again or recommend to friends.
+      <div class="movieCard">
+        <div class="moviePoster">POSTER</div>
+        <div class="movieTitle">Another Movie</div>
+        <div class="movieYear">(2023)</div>
       </div>
+    </section>
 
-      <!-- FAVORITES GRID -->
-      <section id="favoritesGrid" class="favoritesGrid">
-        <!-- Placeholder cards -->
-        <div class="movieCard">
-          <div class="moviePoster">POSTER</div>
-          <div class="movieTitle">Movie Title Placeholder</div>
-          <div class="movieYear">(2025)</div>
-        </div>
-
-        <div class="movieCard">
-          <div class="moviePoster">POSTER</div>
-          <div class="movieTitle">Another Movie</div>
-          <div class="movieYear">(2023)</div>
-        </div>
-      </section>
-
-      <!-- Empty state -->
-      <div id="emptyFavorites" class="emptyState" style="display: none">
-        ⭐ You haven’t added any favorite movies yet.
-      </div>
-    </main>
-
+    <!-- Empty state -->
+    <div id="emptyFavorites" class="emptyState" style="display: none">
+      ⭐ You haven’t added any favorite movies yet.
+    </div>
+  </main>
+  <script src="js/authCheck.js"></script>
+  <script>
+    requireAuth();
+  </script>
   <script src="js/api.js"></script>
   <script src="js/favorites.js"></script>
-  </body>
+  <script src="js/logout.js"></script>
+
+</body>
+
 </html>

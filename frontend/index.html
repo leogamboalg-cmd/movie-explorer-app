@@ -19,7 +19,7 @@
         <div class="nav-right">
             <span class="welcome">Welcome, John!</span>
             <a href="favoriteMovies.html"><button class="nav-btn star">⭐ Favorites</button></a>
-            <button class="icon-btn">☰</button>
+            <button id="logoutBtn" class="nav-btn">Logout</button>
         </div>
     </header>
 
@@ -52,8 +52,14 @@
             <div class="friend-placeholder"></div>
             <div class="friend-placeholder"></div>
         </aside>
+        <script src="js/authCheck.js"></script>
+        <script>
+            requireAuth();
+        </script>
         <script src="js/toast.js"></script>
         <script src="js/search.js"></script>
+        <script src="js/logout.js"></script>
+
     </main>
 
 </body>

@@ -1,4 +1,5 @@
-const API_BASE = "http://127.0.0.1:3000/api";
+const API_BASE = "http://localhost:3000/api";
+//api.js
 
 /**
  * =========================
@@ -66,10 +67,10 @@ async function removeFavorite(title) {
 // GET /api/movies?title=Interstellar
 async function getMovieData(title) {
     const res = await fetch(
-        `${API_BASE}/movies?title=${encodeURIComponent(title)}`,
+        `${API_BASE}/movies/search?title=${encodeURIComponent(title)}`,
         {
             method: "GET",
-            credentials: "include" // Send cookie
+            credentials: "include"
         }
     );
 

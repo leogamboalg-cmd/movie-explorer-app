@@ -1,3 +1,5 @@
+//authLogin.js
+
 document.querySelector("form").addEventListener("submit", handleLogin);
 const passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).+$/;
 
@@ -18,7 +20,7 @@ async function handleLogin(e) {
 
 	try {
 
-		const res = await fetch("http://127.0.0.1:3000/api/auth/login", {
+		const res = await fetch("http://localhost:3000/api/auth/login", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
@@ -38,7 +40,7 @@ async function handleLogin(e) {
 
 		setTimeout(() => {
 			console.log("Form is valid");
-			// window.location.href = "index.html";
+			window.location.href = "index.html";
 		}, 2000)
 
 	} catch (err) {

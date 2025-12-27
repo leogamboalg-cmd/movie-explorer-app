@@ -1,3 +1,4 @@
+//movieRoutes.js
 const express = require("express");
 const router = express.Router();
 const { searchMovie } = require("../controllers/movieController");

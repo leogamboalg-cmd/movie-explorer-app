@@ -1,3 +1,4 @@
+//authSignup.js
 document.querySelector("form").addEventListener("submit", handleSignup);
 // document.querySelector("")
 const passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).+$/;

@@ -1,3 +1,4 @@
+//search.js
 document.getElementById("searchForm").addEventListener("submit", searchForMovie);
 
 async function searchForMovie(e) {

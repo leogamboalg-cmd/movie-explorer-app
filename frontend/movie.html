@@ -233,6 +233,10 @@
                 margin: 0 auto;
             }
         }
+
+        #toast {
+            z-index: 9999;
+        }
     </style>
 </head>
 
@@ -248,8 +252,9 @@
 
         <div class="nav-right">
             <span class="welcome">Welcome, John!</span>
-            <button class="nav-btn star">⭐ Favorites</button>
-            <button class="icon-btn">☰</button>
+            <a href="favoriteMovies.html"><button class="nav-btn star">⭐ Favorites</button></a>
+            <button id="logoutBtn" class="nav-btn">Logout</button>
+
         </div>
     </header>
 
@@ -376,13 +381,18 @@
             <div class="side-block"></div>
             <div class="side-block"></div>
         </aside>
-
+        <div id="toast"></div>
     </main>
-
+    <script src="js/authCheck.js"></script>
+    <script>
+        requireAuth();
+    </script>
     <!-- Scripts (order matters) -->
     <script src="js/toast.js"></script>
+    <script src="js/api.js"></script>
     <script src="js/search.js"></script>
     <script src="js/movie.js"></script>
+    <script src="js/logout.js"></script>
 
 </body>
 
