@@ -20,6 +20,6 @@ router.get("/me/favorites", authMiddleware, getMyFavorites);
 router.post("/me/favorites", authMiddleware, addFavorite);
 
 // remove a movie from favorites
-router.delete("/me/favorites/:movieId", authMiddleware, removeFavorite);
+router.delete("/me/favorites", authMiddleware, removeFavorite);
 
 module.exports = router;

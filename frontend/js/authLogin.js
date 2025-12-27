@@ -18,7 +18,7 @@ async function handleLogin(e) {
 
 	try {
 
-		const res = await fetch("http://localhost:3000/api/auth/login", {
+		const res = await fetch("http://127.0.0.1:3000/api/auth/login", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
@@ -27,17 +27,18 @@ async function handleLogin(e) {
 			body: JSON.stringify({ email, password })
 		});
 		const data = await res.json();
+		console.log("LOGIN RESPONSE:", data);
 
 		if (!res.ok) {
 			showToast(data.message || "Login failed");
 			return;
 		}
-
+		// localStorage.setItem("token", data.token);
 		showToast("Login successful!", 1800);
 
 		setTimeout(() => {
 			console.log("Form is valid");
-			window.location.href = "index.html";
+			// window.location.href = "index.html";
 		}, 2000)
 
 	} catch (err) {

@@ -58,29 +58,25 @@ exports.getMyFavorites = async (req, res) => {
  */
 exports.addFavorite = async (req, res) => {
     try {
-        // 1. get user id
-        const userId = req.user.id;
-        // 2. get movie data from req.body
-        const favoriteMovie = req.body;
-        // 3. validate movie data
-        if (!favoriteMovie) {
-            return res.status(400).json({ message: "No movie" });
+        const { title } = req.body;
+
+        if (!title) {
+            return res.status(400).json({ message: "Movie title required" });
         }
 
-        // check if user exists and adds movie
+        const cleanTitle = title.trim();
+
         const updatedUser = await User.findByIdAndUpdate(
-            userId,
-            { $addToSet: { favoriteMovies: favoriteMovie } },
-            { new: true, runValidators: true } // 'new: true' returns the document AFTER the push
+            req.user.id,
+            { $addToSet: { favoriteMovies: cleanTitle } },
+            { new: true }
         ).select("favoriteMovies");
 
         if (!updatedUser) {
             return res.status(404).json({ message: "User not found" });
         }
 
-        // 8. return updated favorites
         return res.status(200).json(updatedUser.favoriteMovies);
-
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -92,17 +88,15 @@ exports.addFavorite = async (req, res) => {
  */
 exports.removeFavorite = async (req, res) => {
     try {
-        // 1. get user id
-        const userId = req.user.id;
-        // 2. get movieId from req.params
-        const { movieId } = req.params;
-        // 3. find user
-        if (!movieId) {
-            return res.status(400).json({ message: "Movie ID is required" });
+        const { title } = req.body;
+
+        if (!title) {
+            return res.status(400).json({ message: "Movie title required" });
         }
+
         const updatedUser = await User.findByIdAndUpdate(
-            userId,
-            { $pull: { favoriteMovies: movieId } },
+            req.user.id,
+            { $pull: { favoriteMovies: title.trim() } },
             { new: true }
         ).select("favoriteMovies");
 
@@ -110,7 +104,6 @@ exports.removeFavorite = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        // 6. return updated favorites
         return res.status(200).json(updatedUser.favoriteMovies);
     } catch (err) {
         res.status(500).json({ message: err.message });

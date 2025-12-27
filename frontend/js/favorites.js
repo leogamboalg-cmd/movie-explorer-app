@@ -4,22 +4,30 @@ async function loadFavorites() {
     const grid = document.getElementById("favoritesGrid");
     const emptyState = document.getElementById("emptyFavorites");
 
+    // clear previous content
     grid.innerHTML = "";
 
     try {
-        const favoriteIDs = await getFavorites(); // from api.js
+        // favorites are movie TITLES (strings)
+        const favoriteTitles = await getFavorites();
 
-        if (favoriteIDs.length === 0) {
+        // empty state
+        if (!favoriteTitles || favoriteTitles.length === 0) {
             emptyState.style.display = "block";
             return;
         }
 
         emptyState.style.display = "none";
 
-        for (const imdbID of favoriteIDs) {
-            const movie = await getMovieData(imdbID); // OMDb or cache
-            const card = createMovieCard(movie);
-            grid.appendChild(card);
+        // load each favorite movie by title
+        for (const title of favoriteTitles) {
+            try {
+                const movie = await getMovieData(title); // OMDb ?t=title
+                const card = createMovieCard(movie);
+                grid.appendChild(card);
+            } catch (movieErr) {
+                console.warn(`Failed to load movie: ${title}`, movieErr);
+            }
         }
 
     } catch (err) {
