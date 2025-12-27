@@ -13,26 +13,14 @@ const PORT = process.env.PORT || 3000;
 // 🔐 middleware
 app.use(cookieParser());
 
-const allowedOrigins = [
-  "http://localhost:5500",
-  "https://leogamboalg-cmd.github.io",
-  "https://leogamboalg-cmd.github.io/" // ADD THIS
-];
-
+// 
 app.use(cors({
-  origin: function (origin, callback) {
-    // allow requests with no origin (Postman, curl)
-    if (!origin) return callback(null, true);
-
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: [
+    "http://localhost:5500",
+    "https://leogamboalg-cmd.github.io"
+  ],
   credentials: true
 }));
-
 
 app.use(express.json());
 
