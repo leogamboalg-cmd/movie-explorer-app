@@ -15,7 +15,8 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   "http://localhost:5500",
-  "https://leogamboalg-cmd.github.io"
+  "https://leogamboalg-cmd.github.io",
+  "https://leogamboalg-cmd.github.io/" // ADD THIS
 ];
 
 app.use(cors({
