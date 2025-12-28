@@ -56,13 +56,11 @@ exports.login = async (req, res) => {
         }
 
         const existingUser = await User.findOne({ email });
-
         if (!existingUser) {
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
         const isMatch = await bcrypt.compare(password, existingUser.passwordHash);
-
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid credentials" });
         }
@@ -73,17 +71,14 @@ exports.login = async (req, res) => {
             { expiresIn: "7d" }
         );
 
-        res.cookie("token", token, {
-            httpOnly: true,
-            secure: isProduction,
-            sameSite: isProduction ? "none" : "lax",
-            maxAge: 7 * 24 * 60 * 60 * 1000
+        // IMPORTANT: RETURN TOKEN
+        return res.status(200).json({
+            message: "Login successful",
+            token
         });
 
-        return res.status(200).json({ message: "Login successful" });
-
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        return res.status(500).json({ message: err.message });
     }
 };
 
@@ -91,11 +86,5 @@ exports.login = async (req, res) => {
  * LOGOUT
  */
 exports.logout = (req, res) => {
-    res.clearCookie("token", {
-        httpOnly: true,
-        secure: isProduction,
-        sameSite: isProduction ? "none" : "lax"
-    });
-
     return res.status(200).json({ message: "Logged out successfully" });
 };

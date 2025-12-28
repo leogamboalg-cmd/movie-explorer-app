@@ -1,12 +1,10 @@
-// api.js
+const isLocal =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
 
-// =========================
-// API BASE
-// =========================
-window.API_BASE =
-    window.location.hostname === "localhost"
-        ? "http://localhost:3000/api"
-        : "https://movie-explorer-app-yw9h.onrender.com/api";
+window.API_BASE = isLocal
+    ? "http://localhost:3000/api"
+    : "https://movie-explorer-app-yw9h.onrender.com/api";
 
 // =========================
 // AUTH TOKEN HELPERS
