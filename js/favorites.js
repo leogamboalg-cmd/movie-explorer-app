@@ -1,28 +1,25 @@
+// favorites.js
+
 document.addEventListener("DOMContentLoaded", loadFavorites);
-//favorite.js
+
 async function loadFavorites() {
     const grid = document.getElementById("favoritesGrid");
     const emptyState = document.getElementById("emptyFavorites");
 
-    // clear previous content
     grid.innerHTML = "";
+    emptyState.style.display = "none";
 
     try {
-        // favorites are movie TITLES (strings)
         const favoriteTitles = await getFavorites();
 
-        // empty state
         if (!favoriteTitles || favoriteTitles.length === 0) {
             emptyState.style.display = "block";
             return;
         }
 
-        emptyState.style.display = "none";
-
-        // load each favorite movie by title
         for (const title of favoriteTitles) {
             try {
-                const movie = await getMovieData(title); // OMDb ?t=title
+                const movie = await getMovieData(title);
                 const card = createMovieCard(movie);
                 grid.appendChild(card);
             } catch (movieErr) {
@@ -32,6 +29,7 @@ async function loadFavorites() {
 
     } catch (err) {
         console.error("Failed to load favorites", err);
+        emptyState.style.display = "block";
     }
 }
 
@@ -43,7 +41,10 @@ function createMovieCard(movie) {
     poster.className = "moviePoster";
 
     if (movie.Poster && movie.Poster !== "N/A") {
-        poster.innerHTML = `<img src="${movie.Poster}" alt="${movie.Title}">`;
+        const img = document.createElement("img");
+        img.src = movie.Poster;
+        img.alt = movie.Title;
+        poster.appendChild(img);
     } else {
         poster.textContent = "No Poster";
     }
@@ -54,13 +55,12 @@ function createMovieCard(movie) {
 
     const year = document.createElement("div");
     year.className = "movieYear";
-    year.textContent = `(${movie.Year})`;
+    year.textContent = `(${movie.Year || "—"})`;
 
     card.appendChild(poster);
     card.appendChild(title);
     card.appendChild(year);
 
-    // Click → go to movie page
     card.addEventListener("click", () => {
         sessionStorage.setItem("movieData", JSON.stringify(movie));
         window.location.href = "movie.html";

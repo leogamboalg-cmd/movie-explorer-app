@@ -1,21 +1,29 @@
 // movie.js
+
+// =========================
+// LOAD MOVIE DATA
+// =========================
 function loadMoviePage() {
     const movieData = sessionStorage.getItem("movieData");
 
     if (!movieData) {
-        console.log("No movie data yet — leaving placeholders");
+        console.log("No movie data yet");
         return;
     }
 
     const movie = JSON.parse(movieData);
 
-    // Poster
+    // Poster (avoid innerHTML when possible)
     const poster = document.getElementById("posterImg");
+    poster.innerHTML = "";
+
     if (movie.Poster && movie.Poster !== "N/A") {
-        poster.innerHTML = `
-            <img src="${movie.Poster}"
-                 style="width:100%;height:100%;object-fit:cover;">
-        `;
+        const img = document.createElement("img");
+        img.src = movie.Poster;
+        img.style.width = "100%";
+        img.style.height = "100%";
+        img.style.objectFit = "cover";
+        poster.appendChild(img);
     }
 
     // Title + year
@@ -26,14 +34,13 @@ function loadMoviePage() {
     document.getElementById("moviePlot").textContent = movie.Plot;
 
     // Ratings
-    document.getElementById("imdbRating").innerHTML =
-        movie.imdbRating !== "N/A"
-            ? `<span class="gold">${movie.imdbRating}</span>/10`
-            : "—";
+    document.getElementById("imdbRating").textContent =
+        movie.imdbRating !== "N/A" ? `${movie.imdbRating}/10` : "—";
 
     document.getElementById("metaScore").textContent =
         movie.Metascore !== "N/A" ? `${movie.Metascore}/100` : "—";
 
+    // Details
     document.getElementById("director").textContent = movie.Director;
     document.getElementById("writers").textContent = movie.Writer;
     document.getElementById("stars").textContent = movie.Actors;
@@ -43,6 +50,7 @@ function loadMoviePage() {
     document.getElementById("awards").textContent =
         movie.Awards !== "N/A" ? movie.Awards : "—";
 
+    // Cast chips
     const castRow = document.getElementById("castRow");
     castRow.innerHTML = "";
 
@@ -52,12 +60,13 @@ function loadMoviePage() {
         chip.textContent = actor;
         castRow.appendChild(chip);
     });
-
-
 }
 
 loadMoviePage();
-// ADD TO FAVORITES BUTTON
+
+// =========================
+// ADD TO FAVORITES
+// =========================
 const addToFavoritesBtn = document.getElementById("addToFavoritesBtn");
 
 if (addToFavoritesBtn) {
@@ -74,7 +83,7 @@ if (addToFavoritesBtn) {
 
             await addFavorite(movie.Title);
 
-            showToast("Added to favorites ⭐", 2000);
+            showToast("Added to favorites", 2000);
         } catch (err) {
             console.error(err);
             showToast("Failed to add favorite", 2000);

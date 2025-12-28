@@ -1,10 +1,5 @@
 // search.js
 
-// const API_BASE =
-//     window.location.hostname === "localhost"
-//         ? "http://localhost:3000/api"
-//         : "https://movie-explorer-app-yw9h.onrender.com/api";
-
 document.getElementById("searchForm").addEventListener("submit", searchForMovie);
 
 async function searchForMovie(e) {
@@ -17,18 +12,23 @@ async function searchForMovie(e) {
         return;
     }
 
-    const res = await fetch(
-        `${API_BASE}/movies/search?title=${encodeURIComponent(movie)}`,
-        { credentials: "include" }
-    );
+    try {
+        const res = await apiFetch(
+            `/movies/search?title=${encodeURIComponent(movie)}`
+        );
 
-    const data = await res.json();
+        const data = await res.json();
 
-    if (!res.ok) {
-        showToast(data.message || "Movie not found", 2000);
-        return;
+        if (!res.ok) {
+            showToast(data.message || "Movie not found", 2000);
+            return;
+        }
+
+        sessionStorage.setItem("movieData", JSON.stringify(data));
+        window.location.href = "movie.html";
+
+    } catch (err) {
+        console.error(err);
+        showToast("Server error", 2000);
     }
-
-    sessionStorage.setItem("movieData", JSON.stringify(data));
-    window.location.href = "movie.html";
 }

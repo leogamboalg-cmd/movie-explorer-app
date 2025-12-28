@@ -1,37 +1,78 @@
 // api.js
+
+// =========================
+// API BASE
+// =========================
 window.API_BASE =
     window.location.hostname === "localhost"
         ? "http://localhost:3000/api"
         : "https://movie-explorer-app-yw9h.onrender.com/api";
 
-//api.js
+// =========================
+// AUTH TOKEN HELPERS
+// =========================
+function setAuthToken(token) {
+    sessionStorage.setItem("authToken", token);
+}
 
-/**
- * =========================
- * FAVORITES (titles only)
- * Cookie-based auth
- * =========================
- */
+function getAuthToken() {
+    return sessionStorage.getItem("authToken");
+}
 
-// GET /api/users/me/favorites
-async function getFavorites() {
-    const res = await fetch(`${API_BASE}/users/me/favorites`, {
-        method: "GET",
-        credentials: "include" // Send cookie
+function clearAuthToken() {
+    sessionStorage.removeItem("authToken");
+}
+
+// =========================
+// CENTRAL API FETCH WRAPPER
+// =========================
+async function apiFetch(path, options = {}) {
+    const token = getAuthToken();
+
+    const headers = {
+        ...(options.headers || {}),
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+    };
+
+    const res = await fetch(`${API_BASE}${path}`, {
+        ...options,
+        headers
     });
 
+    return res;
+}
+
+// =========================
+// AUTH CHECK (PROTECTED PAGES)
+// =========================
+async function requireAuth() {
+    const token = getAuthToken();
+    if (!token) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    const res = await apiFetch("/auth/me");
+    if (!res.ok) {
+        clearAuthToken();
+        window.location.href = "login.html";
+    }
+}
+
+// =========================
+// FAVORITES
+// =========================
+async function getFavorites() {
+    const res = await apiFetch("/users/me/favorites");
     if (!res.ok) {
         throw new Error("Failed to fetch favorites");
     }
-
     return res.json();
 }
 
-// POST /api/users/me/favorites
 async function addFavorite(title) {
-    const res = await fetch(`${API_BASE}/users/me/favorites`, {
+    const res = await apiFetch("/users/me/favorites", {
         method: "POST",
-        credentials: "include", // Send cookie
         headers: {
             "Content-Type": "application/json"
         },
@@ -45,11 +86,9 @@ async function addFavorite(title) {
     return res.json();
 }
 
-// DELETE /api/users/me/favorites
 async function removeFavorite(title) {
-    const res = await fetch(`${API_BASE}/users/me/favorites`, {
+    const res = await apiFetch("/users/me/favorites", {
         method: "DELETE",
-        credentials: "include", // Send cookie
         headers: {
             "Content-Type": "application/json"
         },
@@ -63,20 +102,12 @@ async function removeFavorite(title) {
     return res.json();
 }
 
-/**
- * =========================
- * MOVIES (server → OMDb)
- * =========================
- */
-
-// GET /api/movies?title=Interstellar
+// =========================
+// MOVIES (SERVER -> OMDb)
+// =========================
 async function getMovieData(title) {
-    const res = await fetch(
-        `${API_BASE}/movies/search?title=${encodeURIComponent(title)}`,
-        {
-            method: "GET",
-            credentials: "include"
-        }
+    const res = await apiFetch(
+        `/movies/search?title=${encodeURIComponent(title)}`
     );
 
     if (!res.ok) {

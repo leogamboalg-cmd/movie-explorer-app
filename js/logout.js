@@ -1,17 +1,17 @@
-// const API_BASE =
-//     window.location.hostname === "localhost"
-//         ? "http://localhost:3000/api"
-//         : "https://movie-explorer-app-yw9h.onrender.com/api";
+// logout.js
 
 document.getElementById("logoutBtn")?.addEventListener("click", async () => {
     try {
-        await fetch(`${API_BASE}/auth/logout`, {
-            method: "POST",
-            credentials: "include"
+        // Optional: notify backend (for logging / future token revocation)
+        await apiFetch("/auth/logout", {
+            method: "POST"
         });
 
-        window.location.href = "login.html";
     } catch (err) {
-        console.error("Logout failed", err);
+        console.error("Logout request failed", err);
+    } finally {
+        // Always clear client-side auth
+        clearAuthToken();
+        window.location.href = "login.html";
     }
 });
