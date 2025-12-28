@@ -10,15 +10,15 @@ window.API_BASE = isLocal
 // AUTH TOKEN HELPERS
 // =========================
 function setAuthToken(token) {
-    sessionStorage.setItem("authToken", token);
+    localStorage.setItem("authToken", token);
 }
 
 function getAuthToken() {
-    return sessionStorage.getItem("authToken");
+    return localStorage.getItem("authToken");
 }
 
 function clearAuthToken() {
-    sessionStorage.removeItem("authToken");
+    localStorage.removeItem("authToken");
 }
 
 // =========================
@@ -50,7 +50,7 @@ async function requireAuth() {
         return;
     }
 
-    const res = await apiFetch("/auth/me");
+    const res = await apiFetch("/users/me");
     if (!res.ok) {
         clearAuthToken();
         window.location.href = "login.html";

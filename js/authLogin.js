@@ -35,7 +35,7 @@ async function handleLogin(e) {
 		showToast("Login successful!", 1500);
 
 		setTimeout(() => {
-			// window.location.href = "index.html";
+			window.location.href = "index.html";
 		}, 1500);
 
 	} catch (err) {

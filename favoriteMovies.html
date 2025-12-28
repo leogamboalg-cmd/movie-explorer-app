@@ -59,11 +59,15 @@
     </div>
   </main>
   <script src="js/api.js"></script>
+  <script src="js/favorites.js" defer></script>
+  <script src="js/logout.js" defer></script>
+
   <script>
-    requireAuth();
+    document.addEventListener("DOMContentLoaded", () => {
+      requireAuth();
+    });
   </script>
-  <script src="js/favorites.js"></script>
-  <script src="js/logout.js"></script>
+
 
 </body>
 
