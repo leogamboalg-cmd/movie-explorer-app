@@ -1,6 +1,6 @@
 // favorites.js
 
-document.addEventListener("DOMContentLoaded", loadFavorites);
+loadFavorites(); // call immediately
 
 async function loadFavorites() {
     const grid = document.getElementById("favoritesGrid");
