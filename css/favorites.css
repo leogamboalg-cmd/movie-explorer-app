@@ -82,10 +82,13 @@
   font-size: 1.1rem;
 }
 
+/* =========================
+   MOBILE FAVORITES GRID
+========================= */
 @media (max-width: 768px) {
   .favoritesGrid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 20px;
   }
 
   .movieCard {
@@ -95,9 +98,10 @@
   .moviePoster img {
     width: 100%;
     height: auto;
-    object-fit: cover;
+    border-radius: 14px;
   }
 }
+
 
 @media (max-width: 768px) {
 

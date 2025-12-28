@@ -154,42 +154,23 @@ body {
     }
 }
 
+/* =========================
+   MOBILE SEARCH BAR
+========================= */
 @media (max-width: 768px) {
-    .navbar {
+    .search-bar {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-        padding: 16px;
-    }
-
-    .nav-right {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
         gap: 10px;
-        flex-wrap: wrap;
-    }
-
-    .nav-btn {
-        flex: 1;
-        text-align: center;
-    }
-}
-
-@media (max-width: 768px) {
-    .searchBarContainer {
-        flex-direction: column;
-        gap: 12px;
-    }
-
-    #searchBar {
         width: 100%;
+        padding: 0 16px;
     }
 
-    .search-btn {
+    .search-bar input,
+    .search-bar button {
         width: 100%;
     }
 }
+
 
 @media (max-width: 768px) {
 
@@ -204,5 +185,36 @@ body {
 
     .favoritesSubtitle {
         font-size: 1rem;
+    }
+}
+
+/* =========================
+   MOBILE NAVBAR FIX
+========================= */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px;
+    }
+
+    .nav-right {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-start;
+    }
+
+    .welcome {
+        width: 100%;
+        font-size: 0.95rem;
+        opacity: 0.9;
+    }
+
+    .nav-btn {
+        flex: 1;
+        min-width: 120px;
     }
 }
