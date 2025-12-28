@@ -81,3 +81,36 @@
   margin-top: 60px;
   font-size: 1.1rem;
 }
+
+@media (max-width: 768px) {
+  .favoritesGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .movieCard {
+    max-width: 100%;
+  }
+
+  .moviePoster img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+}
+
+@media (max-width: 768px) {
+
+  h1,
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  .favoritesTitle {
+    font-size: 1.8rem;
+  }
+
+  .favoritesSubtitle {
+    font-size: 1rem;
+  }
+}
