@@ -5,8 +5,8 @@
 // 		: "https://movie-explorer-app-yw9h.onrender.com/api";
 
 document.querySelector("form").addEventListener("submit", handleLogin);
-const passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).+$/;
-showToast("Waking up server, please wait...", 30000);
+// const passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).+$/;
+// showToast("Waking up server, please wait...", 30000);
 
 async function handleLogin(e) {
 	e.preventDefault();
@@ -18,10 +18,10 @@ async function handleLogin(e) {
 		return;
 	}
 
-	if (!passwordRegex.test(password)) {
-		showToast("Password must contain a number and a special character");
-		return;
-	}
+	// if (!passwordRegex.test(password)) {
+	// 	showToast("Password must contain a number and a special character");
+	// 	return;
+	// }
 
 	try {
 
