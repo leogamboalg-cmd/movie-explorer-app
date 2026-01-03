@@ -23,6 +23,50 @@ exports.getMyProfile = async (req, res) => {
     }
 };
 
+exports.setDisplayName = async (req, res) => {
+    try {
+
+        const userId = req.user.id;
+        const { displayName } = req.body;
+
+        if (!displayName || !displayName.trim()) {
+            return res.status(400).json({ message: "Display name required" });
+        }
+
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { displayName },
+            { new: true, runValidators: true }
+        ).select("username displayName");
+
+        res.json(user);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}
+
+exports.setBio = async (req, res) => {
+    try {
+
+        const userId = req.user.id;
+        const { bio } = req.body;
+
+        if (bio && bio.length > 200) {
+            return res.status(400).json({ message: "Bio too long" });
+        }
+
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { bio },
+            { new: true, runValidators: true }
+        ).select("username bio");
+
+        res.json(user);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}
+
 /**
  * GET MY FAVORITES
  * GET /api/users/me/favorites

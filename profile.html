@@ -8,6 +8,7 @@
 
     <!-- reuse EXACT same theme -->
     <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/profile.css">
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
     <style>
@@ -151,6 +152,61 @@
             margin-bottom: 12px;
         }
 
+        .profile-section {
+            margin-top: 30px;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 16px;
+        }
+
+        .movie-card {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: 210px;
+            object-fit: cover;
+        }
+
+        .movie-card-title {
+            padding: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* hide profile content until JS marks it ready */
+        .profile-card {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .profile-card.ready {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.15s ease;
+        }
+
+
         @media (max-width: 980px) {
             .profile-shell {
                 grid-template-columns: 1fr;
@@ -194,7 +250,7 @@
     <main class="profile-shell">
 
         <!-- LEFT -->
-        <section class="profile-card">
+        <section class="profile-card" id="profileCard">
 
             <div class="profile-top">
                 <div id="profileAvatar" class="avatar">👤</div>
@@ -203,13 +259,20 @@
                     <div id="username" class="profile-name">Username</div>
                     <div id="userHandle" class="profile-handle">@username</div>
 
-                    <p id="userBio" class="profile-bio">
-                        Bio goes here.
-                    </p>
+                    <p id="userBio" class="profile-bio"></p>
+
+                    <div id="bioEditor" class="bio-editor hidden">
+                        <textarea id="bioInput" class="bio-textarea" maxlength="200"
+                            placeholder="Write something about yourself..."></textarea>
+
+                        <div class="bio-actions">
+                            <button id="saveBioBtn" class="btn-primary">Save</button>
+                            <button id="cancelBioBtn" class="btn-ghost">Cancel</button>
+                        </div>
+                    </div>
 
                     <div class="profile-actions">
                         <button id="editProfileBtn" class="btn-primary">Edit Profile</button>
-                        <button id="viewFavoritesBtn" class="btn-ghost">View Favorites</button>
                     </div>
                 </div>
             </div>
@@ -234,9 +297,22 @@
             <div class="divider"></div>
 
             <!-- ACTIVITY LIST -->
-            <div id="activityList">
-                <!-- JS will append .activity-item elements here -->
+            <div class="profile-section">
+                <h2 class="section-title">⭐ Favorite Movies</h2>
+                <div id="favoriteMoviesGrid" class="movie-grid">
+                    <!-- Favorite movie cards injected here -->
+                </div>
             </div>
+
+            <div class="divider"></div>
+
+            <div class="profile-section">
+                <h2 class="section-title">📝 Reviewed Movies</h2>
+                <div id="reviewedMoviesGrid" class="movie-grid">
+                    <!-- Reviewed movie cards injected here -->
+                </div>
+            </div>
+
 
         </section>
 
@@ -257,7 +333,7 @@
             <div class="side-block"></div>
             <div class="side-block"></div>
         </aside>
-
+        <div id="toast"></div>
     </main>
 
     <script src="js/api.js"></script>
@@ -268,6 +344,7 @@
     <script src="js/navbar.js"></script>
     <script src="js/toast.js"></script>
     <script src="js/search.js"></script>
+    <script src="js/userProfile.js"></script>
     <script src="js/logout.js"></script>
 </body>
 

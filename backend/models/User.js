@@ -1,3 +1,5 @@
+//User.js
+
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -8,6 +10,12 @@ const userSchema = new Schema({
 		required: true, // username is a required field
 		unique: true,   // username must be unique
 		trim: true      // whitespace around the string will be removed
+	},
+	displayName: {
+		type: String,
+		trim: true,
+		maxlength: 50,
+		default: ""
 	},
 	email: {
 		type: String,

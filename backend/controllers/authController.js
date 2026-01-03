@@ -28,10 +28,12 @@ exports.register = async (req, res) => {
 
         const user = await User.create({
             username,
+            displayName,
             email,
             passwordHash,
             favoriteMovies: [],
-            friendsList: []
+            friendsList: [],
+            bio,
         });
 
         res.status(201).json({
