@@ -5,6 +5,12 @@
 // =========================
 function loadMoviePage() {
     const movieData = sessionStorage.getItem("movieData");
+    const searchInput = document.getElementById("searchBar");
+    const lastSearch = sessionStorage.getItem("lastSearch");
+
+    if (searchInput && lastSearch) {
+        searchInput.value = lastSearch;
+    }
 
     if (!movieData) {
         console.log("No movie data yet");
@@ -81,7 +87,17 @@ if (addToFavoritesBtn) {
 
             const movie = JSON.parse(movieData);
 
-            await addFavorite(movie.Title);
+            const result = await addFavorite(movie.Title);
+
+            if (!result.ok) {
+                if (result.reason === "ALREADY_EXISTS") {
+                    showToast("Already in favorites", 2000);
+                    return;
+                }
+
+                showToast("Failed to add favorite", 2000);
+                return;
+            }
 
             showToast("Added to favorites", 2000);
         } catch (err) {

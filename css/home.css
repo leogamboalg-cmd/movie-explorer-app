@@ -148,6 +148,58 @@ body {
     margin-bottom: 12px;
 }
 
+.add-friend {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.add-friend input {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    background: #1f1f1f;
+    color: white;
+}
+
+.add-friend input::placeholder {
+    color: #aaa;
+}
+
+.add-friend button {
+    padding: 8px 14px;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #f5c518;
+    color: black;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+#toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #222;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    font-family: system-ui, sans-serif;
+}
+
+#toast.show {
+    opacity: 1;
+}
+
 @media (max-width: 768px) {
     body {
         overflow-x: hidden;

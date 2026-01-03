@@ -45,14 +45,27 @@
         </section>
 
         <!-- FRIENDS PLACEHOLDER -->
+        <!-- FRIENDS SIDEBAR -->
         <aside class="friends">
             <h3>Friends</h3>
-            <p class="hint">Friends list coming soon.</p>
 
+            <!-- ADD FRIEND -->
+            <form id="addFriendForm" action="">
+                <div class="add-friend">
+                    <input type="text" id="addFriendInput" placeholder="Username">
+                    <button type="submit" id="addFriendBtn">Add</button>
+                </div>
+            </form>
+
+            <p class="hint">Your friends will appear here.</p>
+
+            <!-- FRIEND LIST (PLACEHOLDERS FOR NOW) -->
             <div class="friend-placeholder"></div>
             <div class="friend-placeholder"></div>
             <div class="friend-placeholder"></div>
         </aside>
+        <div id="toast"></div>
+
         <script src="js/api.js"></script>
         <script src="js/authCheck.js"></script>
         <script>

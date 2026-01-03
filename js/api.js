@@ -77,11 +77,17 @@ async function addFavorite(title) {
         body: JSON.stringify({ title })
     });
 
+    const data = await res.json();
+
     if (!res.ok) {
-        throw new Error("Failed to add favorite");
+        return {
+            ok: false,
+            reason: data.reason || "UNKNOWN_ERROR",
+            message: data.message
+        };
     }
 
-    return res.json();
+    return { ok: true };
 }
 
 async function removeFavorite(title) {

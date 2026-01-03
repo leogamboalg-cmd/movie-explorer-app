@@ -15,6 +15,11 @@ const userSchema = new Schema({
 		unique: true,
 		trim: true
 	},
+	bio: {
+		type: String,
+		maxlength: 200,
+		default: ""
+	},
 	passwordHash: {
 		type: String,
 		required: true,

@@ -25,6 +25,7 @@ async function searchForMovie(e) {
         }
 
         sessionStorage.setItem("movieData", JSON.stringify(data));
+        sessionStorage.setItem("lastSearch", movie);
         window.location.href = "movie.html";
 
     } catch (err) {

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>MovieApp | Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- reuse EXACT same theme -->
+    <link rel="stylesheet" href="css/home.css" />
+    <link rel="icon" href="/images/favicon.png" type="image/png">
+
+    <style>
+        /* ===== PROFILE PAGE (STRUCTURE MIRRORS movie.html) ===== */
+
+        .profile-shell {
+            padding: 30px 40px 50px;
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 40px;
+        }
+
+        .profile-card {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 18px;
+            padding: 26px;
+        }
+
+        .profile-top {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 26px;
+            align-items: center;
+        }
+
+        .avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            opacity: 0.85;
+        }
+
+        .profile-name {
+            font-size: 2.4rem;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .profile-handle {
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+
+        .profile-bio {
+            margin-top: 14px;
+            max-width: 520px;
+            line-height: 1.6;
+            opacity: 0.85;
+        }
+
+        .profile-actions {
+            margin-top: 18px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-primary {
+            padding: 14px 18px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #111;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-ghost {
+            padding: 14px 18px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+            margin: 22px 0;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 14px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-bottom: 6px;
+        }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .activity-item {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+
+        /* RIGHT PANEL (identical pattern to movie.html) */
+        .side-panel {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 18px;
+            padding: 22px;
+            height: fit-content;
+        }
+
+        .side-title {
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .side-hint {
+            opacity: 0.65;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+
+        .side-block {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            height: 44px;
+            margin-bottom: 12px;
+        }
+
+        @media (max-width: 980px) {
+            .profile-shell {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-top {
+                grid-template-columns: 1fr;
+            }
+
+            .avatar {
+                width: 180px;
+                height: 180px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <a href="index.html">
+            <div class="nav-left">🎬 <span>MovieApp</span></div>
+        </a>
+        <div class="nav-right">
+            <span id="welcomeText" class="welcome">Welcome!</span>
+            <button id="logoutBtn" class="nav-btn">Logout</button>
+        </div>
+    </header>
+
+    <!-- SEARCH BAR -->
+    <form id="searchForm">
+        <div class="search-bar">
+            <input id="searchBar" type="text" placeholder="Search for a movie..." />
+            <button type="submit">Search</button>
+        </div>
+    </form>
+
+    <!-- PROFILE -->
+    <main class="profile-shell">
+
+        <!-- LEFT -->
+        <section class="profile-card">
+
+            <div class="profile-top">
+                <div id="profileAvatar" class="avatar">👤</div>
+
+                <div>
+                    <div id="username" class="profile-name">Username</div>
+                    <div id="userHandle" class="profile-handle">@username</div>
+
+                    <p id="userBio" class="profile-bio">
+                        Bio goes here.
+                    </p>
+
+                    <div class="profile-actions">
+                        <button id="editProfileBtn" class="btn-primary">Edit Profile</button>
+                        <button id="viewFavoritesBtn" class="btn-ghost">View Favorites</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="stats-row">
+                <div class="stat-box">
+                    <div class="stat-label">Friends</div>
+                    <div id="friendsCount" class="stat-value">0</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Favorites</div>
+                    <div id="favoritesCount" class="stat-value">0</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Reviews</div>
+                    <div id="reviewsCount" class="stat-value">0</div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- ACTIVITY LIST -->
+            <div id="activityList">
+                <!-- JS will append .activity-item elements here -->
+            </div>
+
+        </section>
+
+        <!-- RIGHT -->
+        <aside class="side-panel">
+            <div class="side-title">Friends</div>
+            <div class="side-hint">Friend activity will appear here.</div>
+
+            <div class="side-block"></div>
+            <div class="side-block"></div>
+            <div class="side-block"></div>
+
+            <div class="divider"></div>
+
+            <div class="side-title">What friends said</div>
+            <div class="side-hint">Ratings & reviews placeholder.</div>
+
+            <div class="side-block"></div>
+            <div class="side-block"></div>
+        </aside>
+
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/authCheck.js"></script>
+    <script>
+        requireAuth();
+    </script>
+    <script src="js/navbar.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/logout.js"></script>
+</body>
+
+</html>

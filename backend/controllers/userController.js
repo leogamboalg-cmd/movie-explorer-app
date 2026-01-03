@@ -67,17 +67,20 @@ exports.addFavorite = async (req, res) => {
 
         const cleanTitle = title.trim();
 
-        const updatedUser = await User.findByIdAndUpdate(
-            req.user.id,
-            { $addToSet: { favoriteMovies: cleanTitle } },
-            { new: true }
-        ).select("favoriteMovies");
+        const result = await User.updateOne(
+            { _id: req.user.id, favoriteMovies: { $ne: cleanTitle } }, // Only match if title is NOT there
+            { $push: { favoriteMovies: cleanTitle } }
+        );
 
-        if (!updatedUser) {
-            return res.status(404).json({ message: "User not found" });
+        if (result.matchedCount === 0) {
+            // This means the title was already in the array OR the user doesn't exist
+            const userExists = await User.exists({ _id: req.user.id });
+            if (!userExists) return res.status(404).json({ message: "User not found" });
+
+            return res.status(400).json({ reason: "ALREADY_EXISTS", message: "Movie already in favorites" });
         }
 
-        return res.status(200).json(updatedUser.favoriteMovies);
+        res.status(200).json({ message: "Added successfully" });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
