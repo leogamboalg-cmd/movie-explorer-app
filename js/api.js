@@ -120,3 +120,20 @@ async function getMovieData(title) {
 
     return res.json();
 }
+
+function addToRecentlyViewed(movie) {
+    if (!movie || !movie.imdbID) return;
+
+    let recent = JSON.parse(sessionStorage.getItem("recentMovies")) || [];
+
+    // remove duplicates
+    recent = recent.filter(m => m.imdbID !== movie.imdbID);
+
+    // add to front
+    recent.unshift(movie);
+
+    // limit (Letterboxd-style)
+    recent = recent.slice(0, 10);
+
+    sessionStorage.setItem("recentMovies", JSON.stringify(recent));
+}

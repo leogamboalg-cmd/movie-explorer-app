@@ -36,13 +36,39 @@
 
         <!-- MAIN CONTENT -->
         <section class="content">
-            <h1>Welcome to MovieApp!</h1>
-            <p>Search for movies to get started.</p>
 
-            <div class="hero-placeholder">
-                🎞️
-            </div>
+            <!-- RECENTLY VIEWED -->
+            <section id="recentSection" class="row-section hidden">
+                <div class="row-header">
+                    <h2>Recently Viewed</h2>
+                </div>
+                <div id="recentMoviesRow" class="movie-row"></div>
+            </section>
+
+            <!-- TRENDING -->
+            <section class="row-section">
+                <div class="row-header">
+                    <h2>Trending Today</h2>
+                </div>
+                <div id="trendingRow" class="movie-row"></div>
+            </section>
+
+            <!-- GENRES -->
+            <section class="row-section">
+                <div class="row-header">
+                    <h2>Browse Genres</h2>
+                </div>
+                <div class="genre-row">
+                    <div class="genre-pill">Action</div>
+                    <div class="genre-pill">Drama</div>
+                    <div class="genre-pill">Comedy</div>
+                    <div class="genre-pill">Horror</div>
+                    <div class="genre-pill">Sci-Fi</div>
+                </div>
+            </section>
+
         </section>
+
 
         <!-- FRIENDS PLACEHOLDER -->
         <!-- FRIENDS SIDEBAR -->
@@ -75,6 +101,7 @@
         <script src="js/toast.js"></script>
         <script src="js/search.js"></script>
         <script src="js/findUser.js"></script>
+        <script src="js/home.js"></script>
         <script src="js/logout.js"></script>
     </main>
 
