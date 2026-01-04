@@ -191,6 +191,12 @@ body {
 	z-index: 2;
 }
 
+#viewAllFavoritesContainer {
+	margin-top: 20px;
+	text-align: center;
+}
+
+
 #userHandle {
 	visibility: hidden;
 }

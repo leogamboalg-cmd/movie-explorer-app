@@ -11,10 +11,13 @@ const {
 	removeFavorite,
 	setBio,
 	setDisplayName,
+	getUserProfile,
 } = require("../controllers/userController");
 
 // get logged-in user's profile
 router.get("/me", authMiddleware, getMyProfile);
+
+router.get("/:username", authMiddleware, getUserProfile);
 
 // get logged-in user's favorite movies
 router.get("/me/favorites", authMiddleware, getMyFavorites);

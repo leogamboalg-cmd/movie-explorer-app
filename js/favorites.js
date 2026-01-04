@@ -1,5 +1,17 @@
 // favorites.js
 
+function getCachedMovie(title) {
+    const key = `movie:${title.toLowerCase()}`;
+    const cached = sessionStorage.getItem(key);
+    return cached ? JSON.parse(cached) : null;
+}
+
+function setCachedMovie(title, movieData) {
+    const key = `movie:${title.toLowerCase()}`;
+    sessionStorage.setItem(key, JSON.stringify(movieData));
+}
+
+
 loadFavorites(); // call immediately
 
 async function loadFavorites() {
@@ -19,7 +31,13 @@ async function loadFavorites() {
 
         for (const title of favoriteTitles) {
             try {
-                const movie = await getMovieData(title);
+                let movie = getCachedMovie(title);
+
+                if (!movie) {
+                    movie = await getMovieData(title);
+                    setCachedMovie(title, movie);
+                }
+
                 const card = createMovieCard(movie);
                 grid.appendChild(card);
             } catch (movieErr) {
