@@ -22,18 +22,13 @@ app.use(cors({
 		if (!origin) return callback(null, true);
 
 		if (allowedOrigins.includes(origin)) {
-			return callback(null, true);
+			return callback(null, origin); // 
 		}
 
 		return callback(new Error("CORS blocked"));
 	},
-	methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-	allowedHeaders: ["Content-Type", "Authorization"],
 	credentials: true
 }));
-
-// IMPORTANT: allow preflight requests
-app.options("*", cors());
 
 
 app.use(express.json());
