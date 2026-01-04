@@ -9,9 +9,9 @@ const isProduction = process.env.NODE_ENV === "production";
  */
 exports.register = async (req, res) => {
     try {
-        const { username, email, password } = req.body;
+        const { username, displayName, email, password } = req.body;
 
-        if (!username || !email || !password) {
+        if (!username || !email || !password || !displayName) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
@@ -31,9 +31,9 @@ exports.register = async (req, res) => {
             displayName,
             email,
             passwordHash,
+            bio: "",
             favoriteMovies: [],
             friendsList: [],
-            bio,
         });
 
         res.status(201).json({
