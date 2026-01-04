@@ -377,3 +377,42 @@ body {
         min-width: 120px;
     }
 }
+
+@media (max-width: 768px) {
+    .layout {
+        display: block;
+        padding: 16px;
+    }
+
+    .friends {
+        display: none;
+        /* hide friends on phone */
+    }
+}
+
+@media (max-width: 768px) {
+    .movie-poster {
+        min-width: 110px;
+        height: 165px;
+        /* keeps 2:3 ratio */
+    }
+}
+
+@media (max-width: 768px) {
+
+    .movie-row,
+    .row-header,
+    .genre-row {
+        padding: 0 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-right {
+        justify-content: space-between;
+    }
+
+    .nav-btn {
+        flex: 1;
+    }
+}
