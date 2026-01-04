@@ -11,24 +11,29 @@ const PORT = process.env.PORT || 3000;
 app.use(cookieParser());
 
 const allowedOrigins = [
-  "http://localhost:5500",
-  "http://127.0.0.1:5500",
-  "https://leogamboalg-cmd.github.io"
+	"http://localhost:5500",
+	"http://127.0.0.1:5500",
+	"https://leogamboalg-cmd.github.io"
 ];
 
 
 app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin) return callback(null, true);
+	origin: (origin, callback) => {
+		if (!origin) return callback(null, true);
 
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, origin); // 
-    }
+		if (allowedOrigins.includes(origin)) {
+			return callback(null, true);
+		}
 
-    return callback(new Error("CORS blocked"));
-  },
-  credentials: true
+		return callback(new Error("CORS blocked"));
+	},
+	methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+	allowedHeaders: ["Content-Type", "Authorization"],
+	credentials: true
 }));
+
+// IMPORTANT: allow preflight requests
+app.options("*", cors());
 
 
 app.use(express.json());
@@ -40,9 +45,9 @@ app.use("/api/friends", require("./routes/friendRoutes"));
 app.use("/api/movies", require("./routes/movieRoutes"));
 
 app.get("/", (req, res) => {
-  res.send("Movie API backend is running");
+	res.send("Movie API backend is running");
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+	console.log(`Server running on port ${PORT}`);
 });
