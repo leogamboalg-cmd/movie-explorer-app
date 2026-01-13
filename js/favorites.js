@@ -2,13 +2,13 @@
 
 function getCachedMovie(title) {
     const key = `movie:${title.toLowerCase()}`;
-    const cached = sessionStorage.getItem(key);
+    const cached = localStorage.getItem(key);
     return cached ? JSON.parse(cached) : null;
 }
 
 function setCachedMovie(title, movieData) {
     const key = `movie:${title.toLowerCase()}`;
-    sessionStorage.setItem(key, JSON.stringify(movieData));
+    localStorage.setItem(key, JSON.stringify(movieData));
 }
 
 

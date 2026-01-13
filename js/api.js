@@ -124,7 +124,7 @@ async function getMovieData(title) {
 function addToRecentlyViewed(movie) {
     if (!movie || !movie.imdbID) return;
 
-    let recent = JSON.parse(sessionStorage.getItem("recentMovies")) || [];
+    let recent = JSON.parse(localStorage.getItem("recentMovies")) || [];
 
     // remove duplicates
     recent = recent.filter(m => m.imdbID !== movie.imdbID);
@@ -135,5 +135,5 @@ function addToRecentlyViewed(movie) {
     // limit (Letterboxd-style)
     recent = recent.slice(0, 10);
 
-    sessionStorage.setItem("recentMovies", JSON.stringify(recent));
+    localStorage.setItem("recentMovies", JSON.stringify(recent));
 }

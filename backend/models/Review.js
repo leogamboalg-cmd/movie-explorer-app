@@ -14,13 +14,14 @@ const reviewSchema = new mongoose.Schema(
         rating: {
             type: Number,
             min: 1,
-            max: 10,
-            required: true
+            max: 5,
+            default: null
         },
-        text: {
+        reviewText: {
             type: String,
             trim: true,
-            maxlength: 500
+            maxlength: 500,
+            default: ""
         }
     },
     { timestamps: true }

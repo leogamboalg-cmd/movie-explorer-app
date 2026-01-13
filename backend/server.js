@@ -38,6 +38,7 @@ app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/friends", require("./routes/friendRoutes"));
 app.use("/api/movies", require("./routes/movieRoutes"));
+app.use("/api/reviews", require("./routes/reviewRoutes"));
 
 app.get("/", (req, res) => {
 	res.send("Movie API backend is running");
