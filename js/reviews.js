@@ -1,3 +1,5 @@
+let starCount = 0;
+let reviewCount = 0;
 async function loadReviews(movieId) {
     const res = await apiFetch(
         `/reviews/movie/${encodeURIComponent(movieId)}`
@@ -18,10 +20,28 @@ async function loadReviews(movieId) {
     }
 
     empty.classList.add("hidden");
-
+    starCount = 0;
+    reviewCount = 0;
     reviews.forEach(review => {
+        if (typeof review.rating === "number") {
+            starCount += review.rating;
+            reviewCount++;
+        }
         list.appendChild(createReviewCard(review));
     });
+    updateUserRating();
+}
+
+function updateUserRating() {
+    const userRatingEl = document.getElementById("userRating");
+
+    if (!reviewCount) {
+        userRatingEl.textContent = "—";
+        return;
+    }
+
+    const avg = (starCount / reviewCount).toFixed(1);
+    userRatingEl.textContent = `${avg}/5.0`;
 }
 
 function createReviewCard(review) {
@@ -34,7 +54,11 @@ function createReviewCard(review) {
 
     const avatar = document.createElement("img");
     avatar.classList.add("avatar");
-    avatar.src = "default-avatar.png";
+    avatar.src = "/images/default-avatar.png";
+    avatar.onerror = () => {
+        avatar.style.display = "none";
+    };
+
     avatar.alt = "User avatar";
 
     const userBlock = document.createElement("div");
@@ -46,7 +70,6 @@ function createReviewCard(review) {
     const stars = document.createElement("span");
     stars.classList.add("stars");
     stars.textContent = renderStars(review.rating);
-
     userBlock.appendChild(username);
     userBlock.appendChild(stars);
 
