@@ -14,9 +14,3 @@ A full-stack IMDb-style movie app with authentication, favorites, and user accou
 - Backend: Node.js, Express
 - Database: MongoDB
 - Auth: JWT + cookies
-
-### Live Demo
- Frontend demo only (backend runs locally for security reasons)
-
-### Status
- Actively being developed — backend deployment coming soon
