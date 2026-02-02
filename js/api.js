@@ -6,6 +6,8 @@ window.API_BASE = isLocal
     ? "http://localhost:3000/api"
     : "https://movie-explorer-app-yw9h.onrender.com/api";
 
+window.API_BASE = "http://192.168.110.99:3000/api";
+
 // =========================
 // AUTH TOKEN HELPERS
 // =========================
