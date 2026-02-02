@@ -37,7 +37,8 @@ app.use(express.json());
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 min
 	max: 200, // max requests per IP
-	message: "Too many requests, try again later."
+	message: "Too many requests, try again later.",
+	skip: (req) => req.path === "/health"
 });
 
 app.use(limiter);
@@ -51,6 +52,11 @@ app.use("/api/reviews", require("./routes/reviewRoutes"));
 
 app.get("/", (req, res) => {
 	res.send("Movie API backend is running");
+});
+
+// Health check endpoint
+app.get("/health", (req, res) => {
+	res.status(200).send("OK");
 });
 
 app.listen(PORT, () => {
