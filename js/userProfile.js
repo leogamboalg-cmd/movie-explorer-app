@@ -35,11 +35,44 @@ async function loadProfile() {
         document.getElementById("userBio").textContent =
             user.bio || "";
 
+        const friendButton = document.getElementById("addFriendBtn");
+
+        if (!viewingOtherUser && friendButton) {
+            friendButton.classList.add("hidden");
+        }
+
+        if (viewingOtherUser && friendButton) {
+            friendButton.onclick = async () => {
+                try {
+                    const res = await apiFetch("/friends/add", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            friendName: user.username
+                        })
+                    });
+
+                    if (!res.ok) {
+                        showToast("Failed to add friend");
+                        return;
+                    }
+
+                    showToast("Friend added!");
+                } catch (err) {
+                    console.error(err);
+                    showToast("Error adding friend");
+                }
+            };
+        }
+
         renderFavoriteMovies(user.favoriteMovies || []);
+        loadReviewedMovies(user.username);
+        loadFriendsList();
 
         // hide edit button if NOT your profile
         if (usernameFromURL && editBtn) {
             editBtn.classList.add("hidden");
+
         }
 
         card.classList.add("ready");
@@ -48,7 +81,6 @@ async function loadProfile() {
         console.error(e);
     }
 }
-
 
 document.addEventListener("DOMContentLoaded", loadProfile);
 
@@ -168,6 +200,85 @@ async function renderFavoriteMovies(movies = []) {
     // show "View All" button if needed
     if (movies.length > FAVORITES_PREVIEW_LIMIT) {
         addViewAllFavoritesButton(movies.length);
+    }
+}
+
+async function loadReviewedMovies(username) {
+    const grid = document.getElementById("reviewedMoviesGrid");
+    const countEl = document.getElementById("reviewsCount");
+
+    if (!grid) return;
+
+    // clear grid
+    while (grid.firstChild) {
+        grid.removeChild(grid.firstChild);
+    }
+
+    try {
+        const res = await apiFetch(`/reviews/userReviews/${username}`);
+
+        if (!res.ok) return;
+
+        const reviews = await res.json();
+
+        if (countEl) {
+            countEl.textContent = reviews.length;
+        }
+
+        if (reviews.length === 0) {
+            const empty = document.createElement("div");
+            empty.textContent = "No reviews yet.";
+            empty.style.opacity = "0.6";
+            grid.appendChild(empty);
+            return;
+        }
+
+        for (const review of reviews) {
+            const title = review.movieId;
+
+            const card = document.createElement("div");
+            card.classList.add("movie-card");
+
+            const img = document.createElement("img");
+            img.alt = title;
+
+            const cachedPoster = getCachedPoster(title);
+            if (cachedPoster) {
+                img.src = cachedPoster;
+            } else {
+                try {
+                    const res = await apiFetch(
+                        `/movies/search?title=${encodeURIComponent(title)}`
+                    );
+
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data.Poster && data.Poster !== "N/A") {
+                            img.src = data.Poster;
+                            setCachedPoster(title, data.Poster);
+                        }
+                    }
+                } catch { }
+            }
+
+            const titleEl = document.createElement("div");
+            titleEl.classList.add("movie-card-title");
+            titleEl.textContent = `${title} ⭐${review.rating ?? ""}`;
+
+            card.appendChild(img);
+            card.appendChild(titleEl);
+
+            card.addEventListener("click", async () => {
+                const movie = await getMovieData(title);
+                sessionStorage.setItem("movieData", JSON.stringify(movie));
+                window.location.href = "movie.html";
+            });
+
+            grid.appendChild(card);
+        }
+
+    } catch (err) {
+        console.error(err);
     }
 }
 

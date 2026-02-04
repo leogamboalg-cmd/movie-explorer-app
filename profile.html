@@ -273,6 +273,7 @@
 
                     <div class="profile-actions">
                         <button id="editProfileBtn" class="btn-primary">Edit Profile</button>
+                        <button id="addFriendBtn" class="btn-ghost">Add Friend</button>
                     </div>
                 </div>
             </div>
@@ -323,9 +324,7 @@
             <div class="side-title">Friends</div>
             <div class="side-hint">Friend activity will appear here.</div>
 
-            <div class="side-block"></div>
-            <div class="side-block"></div>
-            <div class="side-block"></div>
+            <div id="friendsListContainer"></div>
 
             <div class="divider"></div>
 
@@ -347,6 +346,8 @@
     <script src="js/toast.js"></script>
     <script src="js/search.js"></script>
     <script src="js/userProfile.js"></script>
+    <script src="js/friendsSidebar.js"></script>
+    <script>friendSidebar();</script>
     <script src="js/logout.js"></script>
 </body>
 
