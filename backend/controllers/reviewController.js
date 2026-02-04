@@ -1,4 +1,5 @@
 const Review = require("../models/Review");
+const User = require("../models/User");
 
 /**
  * Create a new review OR update an existing one
@@ -78,6 +79,32 @@ const getMyReviewForMovie = async (req, res) => {
     }
 };
 
+const getUserReviews = async (req, res) => {
+    try {
+        const { username } = req.params;
+
+        if (!username) {
+            return res.status(400).json({ message: "username required" });
+        }
+
+        // find user
+        const user = await User.findOne({ username });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // find reviews written by user
+        const reviews = await Review.find({ user: user._id })
+            .sort({ createdAt: -1 });
+
+        return res.status(200).json(reviews);
+
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+};
+
 /**
  * Get all reviews for a specific movie
  * - Public endpoint
@@ -147,6 +174,7 @@ const deleteMyReview = async (req, res) => {
 module.exports = {
     createOrUpdateReview,
     getMyReviewForMovie,
+    getUserReviews,
     getReviewsForMovie,
     deleteMyReview,
 };

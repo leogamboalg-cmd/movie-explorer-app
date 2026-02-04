@@ -242,3 +242,35 @@ body {
 .hidden {
 	display: none;
 }
+
+.friend-item {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px;
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.06);
+	margin-bottom: 10px;
+	cursor: pointer;
+	transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.friend-item:hover {
+	background: rgba(255, 255, 255, 0.12);
+	transform: translateX(3px);
+}
+
+.friend-avatar {
+	width: 36px;
+	height: 36px;
+	border-radius: 10px;
+	background: rgba(255, 255, 255, 0.1);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.2rem;
+}
+
+.friend-name {
+	font-weight: 600;
+}
