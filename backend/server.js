@@ -36,7 +36,7 @@ app.use(express.json());
 
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 min
-	max: 200, // max requests per IP
+	max: 500, // max requests per IP
 	message: "Too many requests, try again later.",
 	skip: (req) => req.path === "/health"
 });
