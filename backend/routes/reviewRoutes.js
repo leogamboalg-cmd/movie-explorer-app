@@ -6,6 +6,7 @@ const auth = require("../middleware/authMiddleware");
 const {
     createOrUpdateReview,
     getMyReviewForMovie,
+    getUserReviews,
     getReviewsForMovie,
     deleteMyReview,
 } = require("../controllers/reviewController");
@@ -15,6 +16,8 @@ router.put("/", auth, createOrUpdateReview);
 
 // get logged-in user's review for a movie
 router.get("/me/:movieId", auth, getMyReviewForMovie);
+
+router.get("/userReviews/:username", auth, getUserReviews);
 
 // get all reviews for a movie
 router.get("/movie/:movieId", getReviewsForMovie);
