@@ -80,13 +80,15 @@
 
 /* Modal box */
 .modal {
-    background: #111;
-    border-radius: 16px;
-    padding: 20px 22px;
+    background: linear-gradient(180deg,
+            #141822,
+            #0e1118);
+    border-radius: 18px;
+    padding: 22px 24px 20px;
     width: 100%;
     max-width: 420px;
-    /* 👈 THIS fixes the stretching */
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 /* Title */
@@ -97,19 +99,42 @@
 /* Stars */
 .stars-row {
     display: flex;
-    gap: 6px;
-    font-size: 1.4rem;
-    margin-bottom: 10px;
+    gap: 8px;
+    font-size: 1.6rem;
+    margin: 8px 0 14px;
     cursor: pointer;
 }
 
-/* Textarea */
+.stars-row .star {
+    color: #fbbf24;
+    transition: color 0.2s ease, transform 0.15s ease;
+}
+
+.stars-row .star:hover {
+    color: #fbbf24;
+    transform: scale(1.15);
+}
+
 .modal textarea {
     width: 100%;
-    /* 👈 keep it inside modal */
-    min-height: 80px;
+    min-height: 95px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: none;
     resize: vertical;
+    font-size: 0.95rem;
+    background: rgba(255, 255, 255, 0.06);
+    color: white;
+    outline: none;
     margin-top: 8px;
+}
+
+.modal textarea::placeholder {
+    color: #aaa;
+}
+
+.modal textarea:focus {
+    background: rgba(255, 255, 255, 0.12);
 }
 
 /* Actions */
@@ -118,6 +143,24 @@
     justify-content: flex-end;
     gap: 10px;
     margin-top: 14px;
+}
+
+.modal-actions button {
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.modal-actions button:first-child {
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+}
+
+.modal-actions button:last-child {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #111;
 }
 
 /* ===== REVIEWS ===== */
@@ -133,10 +176,12 @@
 }
 
 .review-card {
-    background: rgba(255, 255, 255, 0.04);
-    border-radius: 14px;
-    padding: 16px 18px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 18px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
+
 
 .review-header {
     display: flex;

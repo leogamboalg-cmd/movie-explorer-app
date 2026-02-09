@@ -1,4 +1,4 @@
-document.getElementById("addFriendForm").addEventListener("submit", (e) => {
+document.getElementById("addFriendForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const username = document
@@ -8,5 +8,20 @@ document.getElementById("addFriendForm").addEventListener("submit", (e) => {
 
     if (!username) return;
 
-    window.location.href = `profile.html?user=${encodeURIComponent(username)}`;
+    try {
+        const res = await apiFetch(`/users/${encodeURIComponent(username)}`);
+
+        if (!res.ok) {
+            showToast("User not found", 2000);
+            return;
+        }
+
+        // user exists → go to profile
+        window.location.href =
+            `profile.html?user=${encodeURIComponent(username)}`;
+
+    } catch (err) {
+        console.error(err);
+        showToast("Failed to search user", 2000);
+    }
 });

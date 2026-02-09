@@ -1,14 +1,7 @@
 // =========================
 // HOME PAGE LIMITS
 // =========================
-const RECENT_LIMIT = 8;
-const TRENDING_LIMIT = 8;
-
-
-document.addEventListener("DOMContentLoaded", () => {
-    loadRecentlyViewed();
-    loadTrending();
-});
+const RECENT_LIMIT = 9;
 
 function getCachedMovie(title) {
     const key = `movie:${title.toLowerCase()}`;
@@ -30,13 +23,14 @@ function loadRecentlyViewed() {
     const row = document.getElementById("recentMoviesRow");
 
     const recent =
-        JSON.parse(sessionStorage.getItem("recentMovies")) || [];
+        JSON.parse(localStorage.getItem("recentMovies")) || [];
 
     if (recent.length === 0) return;
 
     section.classList.remove("hidden");
 
     // APPLY LIMIT
+    row.innerHTML = "";
     recent.slice(0, RECENT_LIMIT).forEach(movie => {
         row.appendChild(createPoster(movie));
     });
@@ -46,31 +40,53 @@ function loadRecentlyViewed() {
    TRENDING (static for now)
 ================================ */
 
-const TRENDING = [
-    "Inception",
-    "Interstellar",
-    "The Dark Knight",
-    "Fight Club",
-    "Parasite",
-    "The Matrix",
-    "Anyone but you",
-    "Superman",
-];
+// const TRENDING = [
+//     "Inception",
+//     "Interstellar",
+//     "The Dark Knight",
+//     "Fight Club",
+//     "Parasite",
+//     "The Matrix",
+//     "Anyone but you",
+//     "Superman",
+// ];
 
-async function loadTrending() {
-    const row = document.getElementById("trendingRow");
+async function loadMovieRow(endpoint, rowId, limit = 9) {
+    try {
+        const res = await apiFetch(endpoint);
+        if (!res.ok) throw new Error("Fetch failed");
 
-    for (const title of TRENDING.slice(0, TRENDING_LIMIT)) {
-        let movie = getCachedMovie(title);
+        const movies = await res.json();
+        const row = document.getElementById(rowId);
+        row.innerHTML = "";
 
-        if (!movie) {
-            movie = await getMovieData(title);
-            setCachedMovie(title, movie);
-        }
+        movies.slice(0, limit).forEach(m => {
+            const poster = document.createElement("div");
+            poster.className = "movie-poster";
 
-        row.appendChild(createPoster(movie));
+            const img = document.createElement("img");
+            img.src = m.poster || "images/placeholder.png";
+            img.alt = m.title;
+
+            poster.appendChild(img);
+
+            poster.addEventListener("click", async () => {
+                const movieData = await getMovieData(m.title);
+                addToRecentlyViewed(movieData);
+                sessionStorage.setItem(
+                    "movieData",
+                    JSON.stringify(movieData)
+                );
+                window.location.href = "movie.html";
+            });
+
+            row.appendChild(poster);
+        });
+    } catch (err) {
+        console.error(err);
     }
 }
+
 
 /* ===============================
    POSTER ELEMENT
@@ -97,3 +113,11 @@ function createPoster(movie) {
 
     return div;
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadRecentlyViewed();
+    loadMovieRow("/movies/trending", "trendingRow");
+    loadMovieRow("/movies/playingNow", "nowPlayingRow");
+    loadMovieRow("/movies/popular", "popularRow");
+    loadMovieRow("/movies/topRated", "topRatedRow");
+});

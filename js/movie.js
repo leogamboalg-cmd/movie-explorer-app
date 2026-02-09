@@ -189,6 +189,7 @@ function openReviewModal(focusText = false) {
 function highlightStars(container, count) {
     [...container.children].forEach((star, idx) => {
         star.textContent = idx < count ? "★" : "☆";
+        star.style.color = idx < count ? "#fbbf24" : "#555";
     });
 }
 

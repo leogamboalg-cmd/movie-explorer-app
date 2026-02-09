@@ -35,6 +35,9 @@ async function loadProfile() {
         document.getElementById("userBio").textContent =
             user.bio || "";
 
+        document.getElementById("friendsCount").textContent =
+            (user.friendsList || []).length;
+
         const friendButton = document.getElementById("addFriendBtn");
 
         if (!viewingOtherUser && friendButton) {
@@ -67,7 +70,8 @@ async function loadProfile() {
 
         renderFavoriteMovies(user.favoriteMovies || []);
         loadReviewedMovies(user.username);
-        loadFriendsList();
+        if (!viewingOtherUser) loadFriendsList();
+
 
         // hide edit button if NOT your profile
         if (usernameFromURL && editBtn) {
