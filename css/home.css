@@ -287,7 +287,7 @@ body {
     gap: 16px;
     padding: 0 40px;
 
-    justify-content: center;
+    justify-content: flex-start;
     /* center posters */
 }
 
