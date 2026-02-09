@@ -389,6 +389,15 @@ body {
     padding-bottom: 10px;
 }
 
+.movie-row {
+    scroll-snap-type: x mandatory;
+}
+
+.movie-poster {
+    scroll-snap-align: start;
+}
+
+
 @media (max-width: 768px) {
     body {
         overflow-x: hidden;
@@ -475,7 +484,7 @@ body {
 
 @media (max-width: 768px) {
     .movie-poster {
-        min-width: 110px;
+        flex: 0 0 110px;
         height: 165px;
         /* keeps 2:3 ratio */
     }
