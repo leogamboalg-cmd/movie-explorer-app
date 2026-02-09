@@ -298,7 +298,8 @@ body {
 ================================ */
 
 .movie-poster {
-    min-width: 140px;
+    flex: 0 0 140px;
+    /* fixed size */
     aspect-ratio: 2 / 3;
     border-radius: 12px;
     overflow: hidden;
