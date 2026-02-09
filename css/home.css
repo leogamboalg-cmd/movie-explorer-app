@@ -282,6 +282,12 @@ body {
     padding: 0 40px;
     overflow-x: auto;
     scroll-behavior: smooth;
+
+    justify-content: flex-start;
+    max-width: 900px;
+    /* prevents giant empty space */
+    margin: 0 auto;
+    /* centers row */
 }
 
 .movie-row::-webkit-scrollbar {
