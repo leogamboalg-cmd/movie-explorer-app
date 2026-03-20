@@ -55,7 +55,9 @@ Users can save movies to favorites which are stored in MongoDB.
 ### Reviews & Ratings
 Users can rate and leave reviews for movies, and average ratings are shown.
 
-(image of movie page review modal or review section)
+<img width="1408" height="895" alt="image" src="https://github.com/user-attachments/assets/5431dab9-627a-4c0e-8300-af5da45350e8" />
+
+<img width="1291" height="307" alt="image" src="https://github.com/user-attachments/assets/ff949ec4-1709-46b9-b142-ecb3067a79d8" />
 
 ---
 
