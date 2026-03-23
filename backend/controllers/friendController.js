@@ -39,7 +39,7 @@ exports.addFriend = async (req, res) => {
 
         // 3. check if the friend exists in the database
         const friendExists = await User.findOne({ username: friendName.trim() });
-
+        const user = await User.findById(userId);
         if (!friendExists) {
             return res.status(404).json({ message: "The user you are trying to add does not exist." });
         }
@@ -49,7 +49,12 @@ exports.addFriend = async (req, res) => {
             return res.status(400).json({ message: "Cannot add yourself" })
         }
 
-        // 5. add friendId to friendsList using $addToSet (prevents duplicates)
+        // 5. check if friend is already added
+        if (user.friendsList.includes(friendExists._id)) {
+            return res.status(409).json({ message: "Friend already added" })
+        }
+
+        // 6. add friendId to friendsList using $addToSet (prevents duplicates)
         const updatedUser = await User.findByIdAndUpdate(
             userId,
             { $addToSet: { friendsList: friendExists._id } },
@@ -60,7 +65,7 @@ exports.addFriend = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        // 6. return updated friends list
+        // 7. return updated friends list
         res.status(200).json(updatedUser.friendsList);
 
     } catch (err) {

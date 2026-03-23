@@ -54,15 +54,17 @@ async function loadProfile() {
                             friendName: user.username
                         })
                     });
-
+                    const data = await res.json()
                     if (!res.ok) {
-                        showToast("Failed to add friend");
+                        showToast(data.message);
+                        console.log(data.message)
                         return;
                     }
 
                     showToast("Friend added!");
                 } catch (err) {
                     console.error(err);
+                    console.log(res);
                     showToast("Error adding friend");
                 }
             };
@@ -195,6 +197,7 @@ async function renderFavoriteMovies(movies = []) {
         card.addEventListener("click", async () => {
             const movie = await getMovieData(title);
             sessionStorage.setItem("movieData", JSON.stringify(movie));
+            addToRecentlyViewed(movie);
             window.location.href = "movie.html";
         });
 

@@ -1,7 +1,7 @@
 // =========================
 // HOME PAGE LIMITS
 // =========================
-const RECENT_LIMIT = 9;
+const RECENT_LIMIT = 10;
 
 function getCachedMovie(title) {
     const key = `movie:${title.toLowerCase()}`;
@@ -51,7 +51,7 @@ function loadRecentlyViewed() {
 //     "Superman",
 // ];
 
-async function loadMovieRow(endpoint, rowId, limit = 9) {
+async function loadMovieRow(endpoint, rowId, limit = 10) {
     try {
         const res = await apiFetch(endpoint);
         if (!res.ok) throw new Error("Fetch failed");

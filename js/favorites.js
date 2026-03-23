@@ -8,7 +8,7 @@ function getCachedMovie(title) {
 
 function setCachedMovie(title, movieData) {
     const key = `movie:${title.toLowerCase()}`;
-    localStorage.setItem(key, JSON.stringify(movieData));
+    sessionStorage.setItem(key, JSON.stringify(movieData));
 }
 
 
@@ -81,6 +81,7 @@ function createMovieCard(movie) {
 
     card.addEventListener("click", () => {
         sessionStorage.setItem("movieData", JSON.stringify(movie));
+        addToRecentlyViewed(movie)
         window.location.href = "movie.html";
     });
 
