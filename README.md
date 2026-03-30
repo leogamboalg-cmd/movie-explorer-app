@@ -19,6 +19,12 @@ The project focuses on building a secure and modern web app using Node.js, Expre
 
 ---
 
+### AI Recommendation System
+- Build using geminis API
+- Send your prompt and you will be recommened 5 movies as well as a short intro message!
+<img width="1336" height="867" alt="image" src="https://github.com/user-attachments/assets/e48a0e33-0c2e-4124-9eed-1ce0e9cfdc71" />
+
+
 ### Movie Search & Discovery
 - Movie search powered by the OMDb API
 - Movie detail pages showing ratings, plot, cast, and metadata
