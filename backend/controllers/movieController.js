@@ -1,4 +1,8 @@
 //movieController.js
+const { GoogleGenAI, Type } = require("@google/genai");
+
+const ai = new GoogleGenAI({});
+
 const searchMovie = async function searchMovie(req, res) {
     try {
         const { title } = req.query;
@@ -116,9 +120,45 @@ const getTopRatedMovies = async (req, res) => {
     }
 };
 
+const getRecommendedMovies = async (req, res) => {
+    try {
+        const { prompt } = req.query;
+
+        if (!prompt) {
+            return res.status(400).json({ message: "Prompt required" });
+        }
+
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: `Recommend 5 movies for this user: ${prompt}`,
+            config: {
+                responseMimeType: "application/json",
+                responseSchema: {
+                    type: Type.ARRAY,
+                    items: {
+                        type: Type.OBJECT,
+                        properties: {
+                            title: { type: Type.STRING },
+                            year: { type: Type.STRING },
+                            overview: { type: Type.STRING }
+                        },
+                        required: ["title", "year", "overview"]
+                    }
+                }
+            }
+        });
+
+        return res.json(JSON.parse(response.text));
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Failed to fetch recommended movies" });
+    }
+};
+
 module.exports = {
     searchMovie,
     getNowPlayingMovies,
     getPopularMovies,
-    getTopRatedMovies
+    getTopRatedMovies,
+    getRecommendedMovies
 };

@@ -5,7 +5,8 @@ const {
     searchMovie,
     getNowPlayingMovies,
     getPopularMovies,
-    getTopRatedMovies
+    getTopRatedMovies,
+    getRecommendedMovies,
 } = require("../controllers/movieController");
 
 const { getTrendingMovies } = require("../controllers/trendingController");
@@ -16,5 +17,6 @@ router.get("/trending", getTrendingMovies);
 router.get("/playingNow", getNowPlayingMovies);
 router.get("/popular", getPopularMovies);
 router.get("/topRated", getTopRatedMovies);
+router.get("/recommended", getRecommendedMovies)
 
 module.exports = router;
