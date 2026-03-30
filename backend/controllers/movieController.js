@@ -128,31 +128,48 @@ const getRecommendedMovies = async (req, res) => {
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents: `
-        A user says: "${prompt}"
+      A user says: "${prompt}"
 
-        Recommend 5 movies that match their taste.
+      Recommend 5 titles that match their taste.
+      Movies or TV shows are both allowed.
 
-        Write the intro like a real movie friend talking:
-        - warm, specific, and natural
-        - 1 short sentence only
-        - do NOT sound generic or robotic
-        - mention the user's vibe or taste
-        - do NOT say "Here are 5 movies"
-        - do NOT say "capture the spirit of"
-        - do NOT use filler like "whimsical fun" unless it truly fits
+      First infer the user's taste as specifically as possible:
+      - tone
+      - humor style
+      - emotional vibe
+      - pacing
+      - themes
+      - character dynamics
 
-        Return JSON in this exact format:
-        {
-          "intro": "Short natural recommendation sentence",
-          "movies": [
-            {
-              "title": "Movie Title",
-              "year": "2020",
-              "overview": "Short summary"
-            }
-          ]
-        }
-        `,
+      If the user mentions a specific movie or show:
+      - consider its tone and themes FIRST
+      - also consider its actors, director, or creator SECOND (only if it naturally fits)
+
+      Do NOT recommend something just because it shares the same actor or director.
+      Only use that as a supporting signal.
+
+      Avoid generic or obvious picks unless they are a very strong match.
+      Prefer specific, high-quality recommendations.
+
+      Write the intro like a real person:
+      - 2 short sentences
+      - natural and conversational
+      - no generic phrases like "capture the spirit of"
+      - use emojis be fun!
+
+      Return JSON in this exact format:
+      {
+        "intro": "Short natural recommendation sentence",
+        "titles": [
+          {
+            "title": "Title Name",
+            "year": "2020",
+            "type": "movie or show",
+            "overview": "Short summary"
+          }
+        ]
+      }
+      `,
       config: {
         responseMimeType: "application/json",
         responseSchema: {

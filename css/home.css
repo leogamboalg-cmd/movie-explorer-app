@@ -475,6 +475,15 @@ body {
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
+.recommend-intro {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.recommend-intro:not(.hidden) {
+  opacity: 1;
+}
+
 @media (max-width: 768px) {
   .recommend-intro {
     margin: 14px 16px 14px;

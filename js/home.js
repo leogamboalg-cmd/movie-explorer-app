@@ -52,7 +52,7 @@ async function loadRecommendedMovies() {
 
     if (introEl) {
       introEl.textContent = data.intro || "";
-      introEl.classList.remove("hidden"); // ⭐ THIS is the key
+      introEl.classList.remove("hidden");
     }
 
     if (recommendedMovies.length === 0) {
@@ -190,6 +190,7 @@ function createPoster(movie) {
 
   div.addEventListener("click", () => {
     sessionStorage.setItem("movieData", JSON.stringify(movie));
+    addToRecentlyViewed(movie);
     window.location.href = "movie.html";
   });
 
