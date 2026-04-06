@@ -160,12 +160,9 @@ const getRecommendedMovies = async (req, res) => {
       Return JSON in this exact format:
       {
         "intro": "Short natural recommendation sentence",
-        "titles": [
+        "movies": [
           {
-            "title": "Title Name",
-            "year": "2020",
-            "type": "movie or show",
-            "overview": "Short summary"
+            "title": "Title Name"
           }
         ]
       }
@@ -182,10 +179,8 @@ const getRecommendedMovies = async (req, res) => {
                 type: Type.OBJECT,
                 properties: {
                   title: { type: Type.STRING },
-                  year: { type: Type.STRING },
-                  overview: { type: Type.STRING },
                 },
-                required: ["title", "year", "overview"],
+                required: ["title"],
               },
             },
           },
@@ -196,7 +191,7 @@ const getRecommendedMovies = async (req, res) => {
 
     return res.json(JSON.parse(response.text));
   } catch (err) {
-    console.error(err);
+    console.error("getRecommendedMovies error:", err);
     return res
       .status(500)
       .json({ message: "Failed to fetch recommended movies" });
