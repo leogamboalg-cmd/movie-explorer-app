@@ -554,6 +554,19 @@ body {
   }
 }
 
+.movie-poster {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+}
+
+.movie-poster.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* =========================
    MOBILE NAVBAR FIX
 ========================= */

@@ -14,15 +14,36 @@ function setCachedMovie(title, movieData) {
   sessionStorage.setItem(key, JSON.stringify(movieData));
 }
 
-/* ===============================
-   RECENTLY VIEWED
-================================ */
+function showLoader() {
+  const loader = document.getElementById("recommendLoader");
+  const btn = document.getElementById("recommendBtn");
+
+  if (loader) loader.classList.remove("hidden");
+
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = "Working...";
+  }
+}
+
+function hideLoader() {
+  const loader = document.getElementById("recommendLoader");
+  const btn = document.getElementById("recommendBtn");
+
+  if (loader) loader.classList.add("hidden");
+
+  if (btn) {
+    btn.disabled = false;
+    btn.textContent = "Recommend";
+  }
+}
 
 async function loadRecommendedMovies() {
   const input = document.getElementById("recommendPrompt");
   const status = document.getElementById("recommendStatus");
   const introEl = document.getElementById("recommendIntro");
   const row = document.getElementById("recommendedRow");
+  introEl.classList.add("hidden");
 
   const prompt = input.value.trim();
 
@@ -33,7 +54,8 @@ async function loadRecommendedMovies() {
     return;
   }
 
-  status.textContent = "Getting recommendations...";
+  status.textContent = "";
+  showLoader();
   if (introEl) introEl.textContent = "";
   row.innerHTML = "";
 
@@ -78,7 +100,7 @@ async function loadRecommendedMovies() {
     validMovies.forEach((movie) => {
       row.appendChild(createPoster(movie));
     });
-
+    setupScrollReveal();
     status.textContent = validMovies.length
       ? ""
       : "Recommendations were found, but movie details could not be loaded.";
@@ -86,6 +108,8 @@ async function loadRecommendedMovies() {
     console.error(err);
     status.textContent = err.message || "Something went wrong.";
     if (introEl) introEl.textContent = "";
+  } finally {
+    hideLoader();
   }
 }
 
@@ -105,6 +129,10 @@ function setupRecommendations() {
   });
 }
 
+/* ===============================
+   RECENTLY VIEWED
+================================ */
+
 function loadRecentlyViewed() {
   const section = document.getElementById("recentSection");
   const row = document.getElementById("recentMoviesRow");
@@ -120,6 +148,7 @@ function loadRecentlyViewed() {
   recent.slice(0, RECENT_LIMIT).forEach((movie) => {
     row.appendChild(createPoster(movie));
   });
+  setupScrollReveal();
 }
 
 /* ===============================
@@ -165,6 +194,7 @@ async function loadMovieRow(endpoint, rowId, limit = 10) {
 
       row.appendChild(poster);
     });
+    setupScrollReveal();
   } catch (err) {
     console.error(err);
   }
@@ -195,6 +225,29 @@ function createPoster(movie) {
   });
 
   return div;
+}
+
+function setupScrollReveal() {
+  const posters = document.querySelectorAll(".movie-poster");
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+        } else {
+          entry.target.classList.remove("in-view");
+        }
+      });
+    },
+    {
+      threshold: 0.2,
+    },
+  );
+
+  posters.forEach((poster) => {
+    observer.observe(poster);
+  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
