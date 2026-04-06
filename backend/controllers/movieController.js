@@ -1,4 +1,11 @@
 //movieController.js
+
+const { GoogleGenAI } = require("@google/genai");
+
+const ai = new GoogleGenAI({
+    apiKey: process.env.GEMINI_API_KEY
+});
+
 const searchMovie = async function searchMovie(req, res) {
     try {
         const { title } = req.query;
@@ -116,9 +123,63 @@ const getTopRatedMovies = async (req, res) => {
     }
 };
 
+const getRecommendedMovies = async (req, res) => {
+    try {
+        const { title } = req.query;
+
+        if (!title) {
+            return res.status(400).json({ message: "Movie title required" });
+        }
+
+        const prompt = `
+Recommend 5 movies similar to "${title}".
+
+Return ONLY valid JSON as an array.
+Do not include markdown.
+Do not include \`\`\`json.
+Use this exact format:
+
+[
+  {
+    "title": "Movie Name",
+    "year": "YYYY",
+    "overview": "Short description"
+  }
+]
+`;
+
+        const response = await ai.models.generateContent({
+            model: "gemini-3-flash-preview",
+            contents: prompt
+        });
+
+        let text = response.text || "";
+
+        text = text.replace(/```json|```/g, "").trim();
+
+        let movies;
+        try {
+            movies = JSON.parse(text);
+        } catch (parseErr) {
+            console.error("JSON parse error:", parseErr);
+            console.error("Raw AI response:", text);
+            return res.status(500).json({
+                message: "Failed to parse AI response",
+                raw: text
+            });
+        }
+
+        return res.json(movies);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Failed to fetch recommended movies" });
+    }
+};
+
 module.exports = {
     searchMovie,
     getNowPlayingMovies,
     getPopularMovies,
-    getTopRatedMovies
+    getTopRatedMovies,
+    getRecommendedMovies
 };
