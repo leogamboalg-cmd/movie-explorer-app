@@ -2,11 +2,11 @@ const express = require("express");
 const router = express.Router();
 
 const {
-    searchMovie,
-    getNowPlayingMovies,
-    getPopularMovies,
-    getTopRatedMovies,
-    getRecommendedMovies,
+  searchMovie,
+  getNowPlayingMovies,
+  getPopularMovies,
+  getTopRatedMovies,
+  getRecommendedMovies,
 } = require("../controllers/movieController");
 
 const { getTrendingMovies } = require("../controllers/trendingController");
@@ -17,6 +17,6 @@ router.get("/trending", getTrendingMovies);
 router.get("/playingNow", getNowPlayingMovies);
 router.get("/popular", getPopularMovies);
 router.get("/topRated", getTopRatedMovies);
-router.get("/recommendation", getRecommendedMovies)
+router.get("/recommended", getRecommendedMovies);
 
 module.exports = router;

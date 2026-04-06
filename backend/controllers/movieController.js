@@ -1,185 +1,212 @@
 //movieController.js
+const { GoogleGenAI, Type } = require("@google/genai");
 
-const { GoogleGenAI } = require("@google/genai");
-
-const ai = new GoogleGenAI({
-    apiKey: process.env.GEMINI_API_KEY
-});
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 const searchMovie = async function searchMovie(req, res) {
-    try {
-        const { title } = req.query;
-        if (!title) {
-            return res.status(400).json({ message: "Movie title required" });
-        }
-
-        const url = `https://www.omdbapi.com/?apikey=${process.env.API_KEY}&t=${title}`;
-        const response = await fetch(url);
-        const data = await response.json();
-
-        if (data.Response === "False") {
-            return res.status(404).json({ message: data.Error });
-        }
-
-        return res.json(data);
-    } catch (err) {
-        res.status(500).json({ message: "OMDb fetch failed" });
+  try {
+    const { title } = req.query;
+    if (!title) {
+      return res.status(400).json({ message: "Movie title required" });
     }
-}
+
+    const url = `https://www.omdbapi.com/?apikey=${process.env.API_KEY}&t=${title}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.Response === "False") {
+      return res.status(404).json({ message: data.Error });
+    }
+
+    return res.json(data);
+  } catch (err) {
+    res.status(500).json({ message: "OMDb fetch failed" });
+  }
+};
 
 const getNowPlayingMovies = async (req, res) => {
-    try {
-        const response = await fetch(
-            "https://api.themoviedb.org/3/movie/now_playing",
-            {
-                headers: {
-                    Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
-                    "Content-Type": "application/json"
-                }
-            }
-        );
+  try {
+    const response = await fetch(
+      "https://api.themoviedb.org/3/movie/now_playing",
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
 
-        const data = await response.json();
+    const data = await response.json();
 
-        const movies = data.results.map(m => ({
-            id: m.id,
-            title: m.title,
-            year: m.release_date?.split("-")[0] || null,
-            poster: m.poster_path
-                ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
-                : null,
-            rating: m.vote_average || null,
-            overview: m.overview || null
-        }));
+    const movies = data.results.map((m) => ({
+      id: m.id,
+      title: m.title,
+      year: m.release_date?.split("-")[0] || null,
+      poster: m.poster_path
+        ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
+        : null,
+      rating: m.vote_average || null,
+      overview: m.overview || null,
+    }));
 
-        res.json(movies);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "Failed to fetch now playing movies" });
-    }
-}
+    res.json(movies);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to fetch now playing movies" });
+  }
+};
 
 const getPopularMovies = async (req, res) => {
-    try {
-        const response = await fetch(
-            "https://api.themoviedb.org/3/movie/popular",
-            {
-                headers: {
-                    Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
-                    "Content-Type": "application/json"
-                }
-            }
-        );
+  try {
+    const response = await fetch("https://api.themoviedb.org/3/movie/popular", {
+      headers: {
+        Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+    });
 
-        const data = await response.json();
+    const data = await response.json();
 
-        const movies = data.results.map(m => ({
-            id: m.id,
-            title: m.title,
-            year: m.release_date?.split("-")[0] || null,
-            poster: m.poster_path
-                ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
-                : null,
-            rating: m.vote_average || null,
-            overview: m.overview || null
-        }));
+    const movies = data.results.map((m) => ({
+      id: m.id,
+      title: m.title,
+      year: m.release_date?.split("-")[0] || null,
+      poster: m.poster_path
+        ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
+        : null,
+      rating: m.vote_average || null,
+      overview: m.overview || null,
+    }));
 
-        res.json(movies);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "Failed to fetch popular movies" });
-    }
-}
+    res.json(movies);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to fetch popular movies" });
+  }
+};
 
 const getTopRatedMovies = async (req, res) => {
-    try {
-        const response = await fetch(
-            "https://api.themoviedb.org/3/movie/top_rated",
-            {
-                headers: {
-                    Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
-                    "Content-Type": "application/json"
-                }
-            }
-        );
+  try {
+    const response = await fetch(
+      "https://api.themoviedb.org/3/movie/top_rated",
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
 
-        const data = await response.json();
+    const data = await response.json();
 
-        const movies = data.results.map(m => ({
-            id: m.id,
-            title: m.title,
-            year: m.release_date?.split("-")[0] || null,
-            poster: m.poster_path
-                ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
-                : null,
-            rating: m.vote_average || null,
-            overview: m.overview || null
-        }));
+    const movies = data.results.map((m) => ({
+      id: m.id,
+      title: m.title,
+      year: m.release_date?.split("-")[0] || null,
+      poster: m.poster_path
+        ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
+        : null,
+      rating: m.vote_average || null,
+      overview: m.overview || null,
+    }));
 
-        res.json(movies);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "Failed to fetch top rated movies" });
-    }
+    res.json(movies);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to fetch top rated movies" });
+  }
 };
 
 const getRecommendedMovies = async (req, res) => {
-    try {
-        const { title } = req.query;
+  try {
+    const { prompt } = req.query;
 
-        if (!title) {
-            return res.status(400).json({ message: "Movie title required" });
-        }
-
-        const prompt = `
-Recommend 5 movies similar to "${title}".
-
-Return ONLY valid JSON as an array.
-Do not include markdown.
-Do not include \`\`\`json.
-Use this exact format:
-
-[
-  {
-    "title": "Movie Name",
-    "year": "YYYY",
-    "overview": "Short description"
-  }
-]
-`;
-
-        const response = await ai.models.generateContent({
-            model: "gemini-3-flash-preview",
-            contents: prompt
-        });
-
-        let text = response.text || "";
-
-        text = text.replace(/```json|```/g, "").trim();
-
-        let movies;
-        try {
-            movies = JSON.parse(text);
-        } catch (parseErr) {
-            console.error("JSON parse error:", parseErr);
-            console.error("Raw AI response:", text);
-            return res.status(500).json({
-                message: "Failed to parse AI response",
-                raw: text
-            });
-        }
-
-        return res.json(movies);
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({ message: "Failed to fetch recommended movies" });
+    if (!prompt) {
+      return res.status(400).json({ message: "Prompt required" });
     }
+
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: `
+      A user says: "${prompt}"
+
+      Recommend 5 titles that match their taste.
+      Movies or TV shows are both allowed.
+
+      First infer the user's taste as specifically as possible:
+      - tone
+      - humor style
+      - emotional vibe
+      - pacing
+      - themes
+      - character dynamics
+
+      If the user mentions a specific movie or show:
+      - consider its tone and themes FIRST
+      - also consider its actors, director, or creator SECOND (only if it naturally fits)
+
+      Do NOT recommend something just because it shares the same actor or director.
+      Only use that as a supporting signal.
+
+      Avoid generic or obvious picks unless they are a very strong match.
+      Prefer specific, high-quality recommendations.
+
+      Write the intro like a real person:
+      - 2 short sentences
+      - natural and conversational
+      - no generic phrases like "capture the spirit of"
+      - use emojis be fun!
+
+      Return JSON in this exact format:
+      {
+        "intro": "Short natural recommendation sentence",
+        "titles": [
+          {
+            "title": "Title Name",
+            "year": "2020",
+            "type": "movie or show",
+            "overview": "Short summary"
+          }
+        ]
+      }
+      `,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            intro: { type: Type.STRING },
+            movies: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  title: { type: Type.STRING },
+                  year: { type: Type.STRING },
+                  overview: { type: Type.STRING },
+                },
+                required: ["title", "year", "overview"],
+              },
+            },
+          },
+          required: ["intro", "movies"],
+        },
+      },
+    });
+
+    return res.json(JSON.parse(response.text));
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({ message: "Failed to fetch recommended movies" });
+  }
 };
 
 module.exports = {
-    searchMovie,
-    getNowPlayingMovies,
-    getPopularMovies,
-    getTopRatedMovies,
-    getRecommendedMovies
+  searchMovie,
+  getNowPlayingMovies,
+  getPopularMovies,
+  getTopRatedMovies,
+  getRecommendedMovies,
 };
