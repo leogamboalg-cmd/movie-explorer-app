@@ -47,15 +47,47 @@
 }
 
 .like-review {
-    background: none;
-    border: none;
-    color: #aaa;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.72);
     cursor: pointer;
-    padding: 0;
+    display: inline-flex;
+    gap: 7px;
+    padding: 7px 12px;
+    transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
 }
 
 .like-review:hover {
+    background: rgba(251, 191, 36, 0.12);
+    border-color: rgba(251, 191, 36, 0.32);
     color: #fff;
+    transform: translateY(-1px);
+}
+
+.like-review.liked,
+.like-review.liked:hover {
+    background: rgba(251, 191, 36, 0.16);
+    border-color: rgba(251, 191, 36, 0.45);
+    color: #fbbf24;
+    font-weight: 700;
+}
+
+.like-heart {
+    color: #f87171;
+    font-size: 1.05rem;
+    line-height: 1;
+}
+
+.like-count {
+    font-size: 0.85rem;
+}
+
+.like-review:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    transform: none;
 }
 
 .no-reviews {
@@ -220,15 +252,3 @@
     opacity: 0.9;
 }
 
-.like-review {
-    background: none;
-    border: none;
-    color: rgba(255, 255, 255, 0.6);
-    cursor: pointer;
-    padding: 0;
-    font-size: 0.85rem;
-}
-
-.like-review:hover {
-    color: #fff;
-}

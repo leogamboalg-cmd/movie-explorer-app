@@ -84,7 +84,11 @@ function createReviewCard(review) {
     // like button
     const likeBtn = document.createElement("button");
     likeBtn.classList.add("like-review");
-    likeBtn.textContent = "♡ Like review";
+    likeBtn.type = "button";
+    likeBtn.appendChild(document.createElement("span"));
+    likeBtn.appendChild(document.createElement("span"));
+    updateLikeButton(likeBtn, review);
+    likeBtn.addEventListener("click", () => toggleReviewLike(review, likeBtn));
 
     // assemble card
     card.appendChild(header);
@@ -92,6 +96,51 @@ function createReviewCard(review) {
     card.appendChild(likeBtn);
 
     return card;
+}
+
+function updateLikeButton(button, review) {
+    const likesCount = review.likesCount || 0;
+    const likeLabel = likesCount === 1 ? "like" : "likes";
+    const heart = button.children[0];
+    const count = button.children[1];
+
+    button.classList.toggle("liked", Boolean(review.likedByMe));
+    heart.className = "like-heart";
+    heart.textContent = review.likedByMe ? "♥" : "♡";
+    count.className = "like-count";
+    count.textContent = `${likesCount} ${likeLabel}`;
+    button.setAttribute(
+        "aria-label",
+        `${review.likedByMe ? "Unlike" : "Like"} review with ${likesCount} ${likeLabel}`
+    );
+}
+
+async function toggleReviewLike(review, button) {
+    if (!review?._id || button.disabled) return;
+
+    const wasLiked = Boolean(review.likedByMe);
+    button.disabled = true;
+
+    try {
+        const res = await apiFetch(`/reviews/${review._id}/like`, {
+            method: wasLiked ? "DELETE" : "POST"
+        });
+
+        const updatedReview = await res.json();
+
+        if (!res.ok) {
+            throw new Error(updatedReview.message || "Failed to update review like");
+        }
+
+        review.likesCount = updatedReview.likesCount;
+        review.likedByMe = updatedReview.likedByMe;
+        updateLikeButton(button, review);
+    } catch (err) {
+        console.error(err);
+        showToast("Failed to update like", 2000);
+    } finally {
+        button.disabled = false;
+    }
 }
 
 function renderStars(rating = 0) {

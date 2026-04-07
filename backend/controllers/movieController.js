@@ -121,14 +121,24 @@ const getRecommendedMovies = async (req, res) => {
   try {
     const { prompt } = req.query;
 
-    if (!prompt) {
+    if (typeof prompt !== "string" || !prompt.trim()) {
       return res.status(400).json({ message: "Prompt required" });
+    }
+
+    const cleanPrompt = prompt.trim();
+
+    if (cleanPrompt.length > 200) {
+      return res.status(400).json({ message: "Prompt must be 200 characters or less" });
+    }
+
+    if (!process.env.GEMINI_API_KEY) {
+      return res.status(500).json({ message: "Recommendation service is not configured" });
     }
 
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents: `
-      A user says: "${prompt}"
+      A user says: ${JSON.stringify(cleanPrompt)}
 
       Recommend 5 titles that match their taste.
       Movies or TV shows are both allowed.

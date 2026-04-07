@@ -1,5 +1,20 @@
 const Review = require("../models/Review");
 const User = require("../models/User");
+const mongoose = require("mongoose");
+
+const formatReview = (review, viewerId) => {
+    if (!review) return review;
+
+    const reviewObject = review.toObject ? review.toObject() : review;
+    const likes = reviewObject.likes || [];
+
+    return {
+        ...reviewObject,
+        likesCount: likes.length,
+        likedByMe: viewerId ? likes.some((id) => id.toString() === viewerId) : false,
+        likes: undefined
+    };
+};
 
 /**
  * Create a new review OR update an existing one
@@ -42,7 +57,7 @@ const createOrUpdateReview = async (req, res) => {
         const review = await Review.findOneAndUpdate(filter, update, options);
 
         // 7. Respond
-        return res.status(200).json(review);
+        return res.status(200).json(formatReview(review, userId));
 
     } catch (err) {
         return res.status(500).json({ message: err.message });
@@ -72,7 +87,7 @@ const getMyReviewForMovie = async (req, res) => {
         });
 
         // 4. Return review (can be null)
-        return res.status(200).json(review);
+        return res.status(200).json(formatReview(review, userId));
 
     } catch (err) {
         return res.status(500).json({ message: err.message });
@@ -98,7 +113,7 @@ const getUserReviews = async (req, res) => {
         const reviews = await Review.find({ user: user._id })
             .sort({ createdAt: -1 });
 
-        return res.status(200).json(reviews);
+        return res.status(200).json(reviews.map((review) => formatReview(review, req.user.id)));
 
     } catch (err) {
         return res.status(500).json({ message: err.message });
@@ -127,7 +142,7 @@ const getReviewsForMovie = async (req, res) => {
             .sort({ createdAt: -1 });
 
         // 5. Return list of reviews
-        return res.status(200).json(reviews);
+        return res.status(200).json(reviews.map((review) => formatReview(review, req.user?.id)));
 
     } catch (err) {
         return res.status(500).json({ message: err.message });
@@ -170,11 +185,63 @@ const deleteMyReview = async (req, res) => {
     }
 };
 
+const likeReview = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { reviewId } = req.params;
+
+        if (!mongoose.isValidObjectId(reviewId)) {
+            return res.status(400).json({ message: "Valid reviewId is required" });
+        }
+
+        const review = await Review.findByIdAndUpdate(
+            reviewId,
+            { $addToSet: { likes: userId } },
+            { new: true, runValidators: true }
+        );
+
+        if (!review) {
+            return res.status(404).json({ message: "Review not found" });
+        }
+
+        return res.status(200).json(formatReview(review, userId));
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+};
+
+const unlikeReview = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { reviewId } = req.params;
+
+        if (!mongoose.isValidObjectId(reviewId)) {
+            return res.status(400).json({ message: "Valid reviewId is required" });
+        }
+
+        const review = await Review.findByIdAndUpdate(
+            reviewId,
+            { $pull: { likes: userId } },
+            { new: true, runValidators: true }
+        );
+
+        if (!review) {
+            return res.status(404).json({ message: "Review not found" });
+        }
+
+        return res.status(200).json(formatReview(review, userId));
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+};
+
 
 module.exports = {
     createOrUpdateReview,
     getMyReviewForMovie,
     getUserReviews,
     getReviewsForMovie,
+    likeReview,
+    unlikeReview,
     deleteMyReview,
 };

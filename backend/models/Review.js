@@ -22,6 +22,10 @@ const reviewSchema = new mongoose.Schema(
             trim: true,
             maxlength: 500,
             default: ""
+        },
+        likes: {
+            type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+            default: []
         }
     },
     { timestamps: true }
