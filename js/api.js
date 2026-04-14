@@ -137,3 +137,23 @@ function addToRecentlyViewed(movie) {
 
     localStorage.setItem("recentMovies", JSON.stringify(recent));
 }
+
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        const response = await fetch(`${API_BASE}/api/health`, {
+            method: "GET",
+        });
+
+        const data = await response.json().catch(() => null);
+
+        if (!response.ok) {
+            throw new Error(
+                data?.error || `Request failed with status ${response.status}`,
+            );
+        }
+
+        console.log("Waking up server");
+    } catch (error) {
+        console.error("Could not wake up server");
+    }
+});
