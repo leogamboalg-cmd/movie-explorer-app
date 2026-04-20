@@ -1,3 +1,4 @@
+// navbar.js
 function capitalize(name) {
     return name.charAt(0).toUpperCase() + name.slice(1);
 }
@@ -12,6 +13,7 @@ async function loadUser() {
         const welcomeEl = document.querySelector(".welcome");
         if (welcomeEl && user.username) {
             welcomeEl.textContent = `Welcome, ${capitalize(user.username)}!`;
+            welcomeEl.style.visibility = "visible";
         }
     } catch (err) {
         console.error("Failed to load user", err);

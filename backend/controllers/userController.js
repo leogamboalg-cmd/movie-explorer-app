@@ -7,7 +7,6 @@ const User = require("../models/User");
  */
 exports.getMyProfile = async (req, res) => {
     try {
-        // 1. get user id (later from JWT middleware)
         // const userId = req.user.id;
         const userId = req.user.id;
         // 2. find user by id
@@ -22,6 +21,73 @@ exports.getMyProfile = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
+exports.getUserProfile = async (req, res) => {
+    try {
+        const { username } = req.params;
+
+        const user = await User.findOne({ username })
+            .select("username bio friendsList favoriteMovies createdAt")
+            .populate("friendsList", "username");
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (user._id === req.user.id) {
+            return res.status(500).json({ message: "Cannot search yourself" });
+        }
+
+        res.status(200).json(user);
+
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}
+
+exports.setDisplayName = async (req, res) => {
+    try {
+
+        const userId = req.user.id;
+        const { displayName } = req.body;
+
+        if (!displayName || !displayName.trim()) {
+            return res.status(400).json({ message: "Display name required" });
+        }
+
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { displayName },
+            { new: true, runValidators: true }
+        ).select("username displayName");
+
+        res.json(user);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}
+
+exports.setBio = async (req, res) => {
+    try {
+
+        const userId = req.user.id;
+        const { bio } = req.body;
+
+        if (bio && bio.length > 200) {
+            return res.status(400).json({ message: "Bio too long" });
+        }
+
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { bio },
+            { new: true, runValidators: true }
+        ).select("username bio");
+
+        res.json(user);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}
 
 /**
  * GET MY FAVORITES

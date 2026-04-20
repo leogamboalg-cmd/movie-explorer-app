@@ -10,7 +10,16 @@ async function handleSignup(e) {
 
     const username = document.getElementById("username").value;
     const email = document.getElementById("email").value;
+
+    const displayName = document.getElementById("displayName").value;
+
     const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    if (password !== confirmPassword) {
+        showToast("Passwords do not match");
+        return;
+    }
 
     if (username.trim() === "") {
         showToast("Username required");
@@ -33,7 +42,7 @@ async function handleSignup(e) {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ username, email, password })
+            body: JSON.stringify({ username, displayName, email, password })
         });
 
         const data = await res.json();

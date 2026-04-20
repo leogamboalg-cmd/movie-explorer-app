@@ -7,28 +7,31 @@ const reviewSchema = new mongoose.Schema(
             ref: "User",
             required: true
         },
-
         movieId: {
             type: String,
             required: true
         },
-
         rating: {
             type: Number,
             min: 1,
-            max: 10,
-            required: true
+            max: 5,
+            default: null
         },
-
-        text: {
+        reviewText: {
             type: String,
             trim: true,
-            maxlength: 500
+            maxlength: 500,
+            default: ""
+        },
+        likes: {
+            type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+            default: []
         }
     },
     { timestamps: true }
 );
 
-const Review = mongoose.model("Review", reviewSchema);
+// prevent duplicate reviews
+reviewSchema.index({ user: 1, movieId: 1 }, { unique: true });
 
-module.exports = Review;
+module.exports = mongoose.model("Review", reviewSchema);

@@ -120,3 +120,40 @@ async function getMovieData(title) {
 
     return res.json();
 }
+
+function addToRecentlyViewed(movie) {
+    if (!movie || !movie.imdbID) return;
+
+    let recent = JSON.parse(localStorage.getItem("recentMovies")) || [];
+
+    // remove duplicates
+    recent = recent.filter(m => m.imdbID !== movie.imdbID);
+
+    // add to front
+    recent.unshift(movie);
+
+    // limit (Letterboxd-style)
+    recent = recent.slice(0, 10);
+
+    localStorage.setItem("recentMovies", JSON.stringify(recent));
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        const response = await fetch(`${API_BASE}/api/health`, {
+            method: "GET",
+        });
+
+        const data = await response.json().catch(() => null);
+
+        if (!response.ok) {
+            throw new Error(
+                data?.error || `Request failed with status ${response.status}`,
+            );
+        }
+
+        console.log("Waking up server");
+    } catch (error) {
+        console.error("Could not wake up server");
+    }
+});

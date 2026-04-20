@@ -141,6 +141,13 @@ button:hover {
     opacity: 1;
 }
 
+.render-note {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: #bbb;
+    text-align: center;
+}
+
 @media (max-width: 768px) {
     .page {
         padding: 20px;

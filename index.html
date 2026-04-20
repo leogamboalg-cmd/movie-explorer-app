@@ -1,83 +1,164 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>MovieApp | Home</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/home.css">
-    <link rel="icon" href="/images/favicon.png" type="image/png">
-</head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/home.css" />
+    <link rel="icon" href="images/favicon.png" type="image/png" />
+  </head>
 
-<body>
-
-    <!-- NAVBAR -->
-    <header class="navbar">
-        <div class="nav-left">
-            🎬 <span>MovieApp</span>
-        </div>
+  <body>
+    <div class="hero-top">
+      <!-- NAVBAR -->
+      <header class="navbar">
+        <div class="nav-left">🎬 <span>MovieApp</span></div>
 
         <div class="nav-right">
-            <span class="welcome">Welcome, John!</span>
-            <a href="favoriteMovies.html"><button class="nav-btn star">⭐ Favorites</button></a>
-            <button id="logoutBtn" class="nav-btn">Logout</button>
+          <span class="welcome">Welcome, !</span>
+          <a href="profile.html"
+            ><button class="nav-btn star">Profile</button></a
+          >
+          <button id="logoutBtn" class="nav-btn">Logout</button>
         </div>
-    </header>
+      </header>
 
-    <!-- SEARCH BAR -->
-    <form id="searchForm">
+      <!-- SEARCH BAR -->
+      <form id="searchForm">
         <div class="search-bar">
-            <input id="searchBar" type="text" placeholder="Search for a movie...">
-            <button>Search</button>
+          <input
+            id="searchBar"
+            type="text"
+            placeholder="Search for a movie..."
+          />
+          <button>Search</button>
         </div>
-    </form>
+      </form>
+    </div>
     <!-- MAIN LAYOUT -->
     <main class="layout">
+      <!-- MAIN CONTENT -->
+      <section class="content">
+        <section class="row-section" id="aiRecommendSection">
+          <div class="row-header">
+            <h2>Get Recommendations</h2>
+          </div>
 
-        <!-- MAIN CONTENT -->
-        <section class="content">
-            <h1>Welcome to MovieApp!</h1>
-            <p>Search for movies to get started.</p>
-
-            <div class="hero-placeholder">
-                🎞️
+          <div class="ai-recommend-box">
+            <input
+              id="recommendPrompt"
+              type="text"
+              placeholder="I like mind-bending sci-fi like Interstellar..."
+            />
+            <button id="recommendBtn" type="button">Recommend</button>
+          </div>
+          <div id="recommendLoader" class="recommend-loader hidden">
+            <div class="loader-core">
+              <div class="ring ring-1"></div>
+              <div class="ring ring-2"></div>
+              <div class="ring ring-3"></div>
+              <div class="core-orb"></div>
             </div>
+
+            <div class="loader-text-wrap">
+              <span class="loader-text">Curating your next watch</span>
+              <span class="loader-dots"></span>
+            </div>
+          </div>
+          <p id="recommendStatus" class="recommend-status"></p>
+          <div id="recommendIntro" class="recommend-intro hidden"></div>
+          <div id="recommendedRow" class="movie-row"></div>
         </section>
 
-        <!-- FRIENDS PLACEHOLDER -->
-        <!-- FRIENDS SIDEBAR -->
-        <aside class="friends">
-            <h3>Friends</h3>
+        <!-- RECENTLY VIEWED -->
+        <section id="recentSection" class="row-section hidden">
+          <div class="row-header">
+            <h2>Recently Viewed</h2>
+          </div>
+          <div id="recentMoviesRow" class="movie-row"></div>
+        </section>
 
-            <!-- ADD FRIEND -->
-            <form id="addFriendForm" action="">
-                <div class="add-friend">
-                    <input type="text" id="addFriendInput" placeholder="Username">
-                    <button type="submit" id="addFriendBtn">Add</button>
-                </div>
-            </form>
+        <!-- TRENDING -->
+        <section class="row-section">
+          <div class="row-header">
+            <h2>Trending Today</h2>
+          </div>
+          <div id="trendingRow" class="movie-row"></div>
+        </section>
 
-            <p class="hint">Your friends will appear here.</p>
+        <section class="row-section">
+          <div class="row-header">
+            <h2>Now Playing</h2>
+          </div>
+          <div id="nowPlayingRow" class="movie-row"></div>
+        </section>
 
-            <!-- FRIEND LIST (PLACEHOLDERS FOR NOW) -->
-            <div class="friend-placeholder"></div>
-            <div class="friend-placeholder"></div>
-            <div class="friend-placeholder"></div>
-        </aside>
-        <div id="toast"></div>
+        <!-- POPULAR -->
+        <section class="row-section">
+          <div class="row-header">
+            <h2>Popular Right Now</h2>
+          </div>
+          <div id="popularRow" class="movie-row"></div>
+        </section>
 
-        <script src="js/api.js"></script>
-        <script src="js/authCheck.js"></script>
-        <script>
-            requireAuth();
-        </script>
-        <script src="js/navbar.js"></script>
-        <script src="js/toast.js"></script>
-        <script src="js/search.js"></script>
-        <script src="js/logout.js"></script>
+        <!-- TOP RATED -->
+        <section class="row-section">
+          <div class="row-header">
+            <h2>Top Rated</h2>
+          </div>
+          <div id="topRatedRow" class="movie-row"></div>
+        </section>
 
+        <!-- GENRES -->
+        <section class="row-section">
+          <div class="row-header">
+            <h2>Browse Genres</h2>
+          </div>
+          <div class="genre-row">
+            <div class="genre-pill">Action</div>
+            <div class="genre-pill">Drama</div>
+            <div class="genre-pill">Comedy</div>
+            <div class="genre-pill">Horror</div>
+            <div class="genre-pill">Sci-Fi</div>
+          </div>
+        </section>
+      </section>
+
+      <!-- FRIENDS PLACEHOLDER -->
+      <!-- FRIENDS SIDEBAR -->
+      <aside class="friends">
+        <h3>Friends</h3>
+
+        <!-- ADD FRIEND -->
+        <form id="addFriendForm" action="">
+          <div class="add-friend">
+            <input type="text" id="addFriendInput" placeholder="Username" />
+            <button type="submit" id="addFriendBtn">Search user</button>
+          </div>
+        </form>
+
+        <p class="hint">Your friends will appear here.</p>
+
+        <!-- FRIEND LIST (PLACEHOLDERS FOR NOW) -->
+        <div id="friendsListContainer"></div>
+      </aside>
+      <div id="toast"></div>
+
+      <script src="js/api.js"></script>
+      <script src="js/authCheck.js"></script>
+      <script>
+        requireAuth();
+      </script>
+      <script src="js/navbar.js"></script>
+      <script src="js/toast.js"></script>
+      <script src="js/search.js"></script>
+      <script src="js/findUser.js"></script>
+      <script src="js/home.js"></script>
+      <script src="js/friendsSidebar.js"></script>
+      <script>
+        loadFriendsList();
+      </script>
+      <script src="js/logout.js"></script>
     </main>
-
-</body>
-
+  </body>
 </html>
